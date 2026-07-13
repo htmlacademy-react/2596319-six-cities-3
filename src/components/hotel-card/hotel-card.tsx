@@ -1,4 +1,4 @@
-function CityCard() {
+export default function HotelCard() {
   return (
     <article className="cities__card place-card">
       <div className="place-card__mark">
@@ -53,5 +53,3 @@ function CityCard() {
     </article>
   );
 }
-
-export default CityCard;
