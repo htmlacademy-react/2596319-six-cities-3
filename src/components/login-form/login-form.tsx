@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function LoginForm() {
   return (
     <section className="login">
@@ -23,9 +25,11 @@ export default function LoginForm() {
             required={false}
           />
         </div>
-        <button className="login__submit form__submit button" type="submit">
-          Sign in
-        </button>
+        <Link to='/'>
+          <button className="login__submit form__submit button" type="submit">
+            Sign in
+          </button>
+        </Link>
       </form>
     </section>
   );

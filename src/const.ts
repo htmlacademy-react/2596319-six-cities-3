@@ -1,7 +1,3 @@
-export const Settings = {
-  CardsCount: 6
-};
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',

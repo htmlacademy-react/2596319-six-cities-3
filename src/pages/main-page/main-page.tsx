@@ -3,13 +3,15 @@ import UserInfo from '../../components/user-info/user-info';
 import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
-import { AuthorizationStatus, Settings } from '../../const';
+import { AuthorizationStatus } from '../../const';
+import { TOffer } from '../../mocks/offers';
 
 type MainPageProps = {
   authorizationStatus: AuthorizationStatus;
+  offers: TOffer[];
 }
 
-export default function MainPage({authorizationStatus}: MainPageProps): JSX.Element {
+export default function MainPage({authorizationStatus, offers}: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -26,7 +28,7 @@ export default function MainPage({authorizationStatus}: MainPageProps): JSX.Elem
         <CitiesTabs />
         <div className="cities">
           <div className="cities__places-container container">
-            <Hotels cardsCount={Settings.CardsCount}/>
+            <Hotels offers={offers} />
             <HotelsMap />
           </div>
         </div>

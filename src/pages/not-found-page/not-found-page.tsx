@@ -3,8 +3,20 @@ import { Link } from 'react-router-dom';
 export default function NotFoundPage() {
   return (
     <div>
-      <h2>Мы искали запрашиваемую вами страницу вдоль и поперёк, но её не оказалось.</h2>
-      <Link to="/">Нажмите сюда для возвращения на главную страницу</Link>
+      <h2 style={{
+        marginTop: '40px',
+        textAlign: 'center',
+        fontSize: '76px'
+      }}
+      >4🫠4
+      </h2>
+      <Link style={{
+        display: 'block',
+        textAlign: 'center',
+        color: 'blue'
+      }} to="/"
+      >Нажмите сюда для возвращения на главную страницу
+      </Link>
     </div>
   );
 }
