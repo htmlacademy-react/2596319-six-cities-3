@@ -16,7 +16,7 @@ export default function Hotels({offers}: HotelsProps) {
   const hotelCards = [];
   for (let i = 0; i < offers.length; i++) {
     hotelCards.push(
-      <HotelCard key={i} card={offers[i]} handleHover={handleHover}/>
+      <HotelCard key={i} card={offers[i]} handleHover={handleHover} activeOffer={activeOffer}/>
     );
   }
   return (
