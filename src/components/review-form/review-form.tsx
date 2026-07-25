@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../const';
 
 export default function ReviewForm() {
   const [currentReviewState, setReviewState] = useState({ rating: 0, comment: '' });
@@ -19,7 +20,9 @@ export default function ReviewForm() {
     }));
   }
 
-  const isSubmitDisabled: boolean = currentReviewState.rating === 0 || currentReviewState.comment.length < 50;
+  const isSubmitDisabled: boolean = currentReviewState.rating === 0
+  || currentReviewState.comment.length < MIN_COMMENT_LENGTH
+  || currentReviewState.comment.length > MAX_COMMENT_LENGTH;
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">

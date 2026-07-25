@@ -2,20 +2,16 @@ import { Link } from 'react-router-dom';
 import { TOffer } from '../../mocks/offers';
 import Bookmark from '../bookmark/bookmark';
 
-type HotelCardProps = {
+type NearHotelCardProps = {
   card: TOffer;
 }
 
-export default function HotelCard({card}: HotelCardProps): JSX.Element {
-  const starsCount = `${card.rating * 20}%`;
-
+export default function NearHotelCard({card}: NearHotelCardProps) {
+  const rating = `${card.rating * 20}%`;
   const offerPath = `/offer/${card.id}`;
-
   return (
-    <article className="cities__card place-card">
-      {card.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className="near-places__card place-card">
+      <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={offerPath}>
           <img
             className="place-card__image"
@@ -30,23 +26,19 @@ export default function HotelCard({card}: HotelCardProps): JSX.Element {
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">€{card.price}</b>
-            <span className="place-card__price-text">
-              /&nbsp;night
-            </span>
+            <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <Bookmark isChecked={card.isFavorite}/>
+          <Bookmark isChecked={false}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: starsCount }} />
+            <span style={{ width: rating }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <Link to={offerPath}>
-          <h2 className="place-card__name">
-            {card.title}
-          </h2>
-        </Link>
+        <h2 className="place-card__name">
+          <Link to={offerPath}>{card.title}</Link>
+        </h2>
         <p className="place-card__type">{card.type}</p>
       </div>
     </article>

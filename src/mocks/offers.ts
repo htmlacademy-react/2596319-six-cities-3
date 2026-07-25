@@ -21,19 +21,19 @@ export type TOffer = {
   rating: number;
   description: string;
   bedrooms: number;
-  goods: [string];
+  goods: string[];
   host: {
     name: string;
     avatarUrl: string;
     isPro: boolean;
   };
-  images: [string];
+  images: string[];
   maxAdults: number;
 }
 
 export const offers: TOffer[] = [
   {
-    id: crypto.randomUUID(),
+    id: '1',
     title: 'Beautiful & luxurious studio at great location 1',
     type: 'apartment',
     price: 120,
@@ -64,12 +64,13 @@ export const offers: TOffer[] = [
       isPro: false
     },
     images: [
+      'https://www.godwinvaapts.com/wp-content/uploads/2022/06/lewisRender2.jpg',
       'https://www.godwinvaapts.com/wp-content/uploads/2022/06/lewisRender2.jpg'
     ],
     maxAdults: 4
   },
   {
-    id: crypto.randomUUID(),
+    id: '2',
     title: 'Wood and stone place 2',
     type: 'apartment',
     price: 80,
@@ -105,7 +106,7 @@ export const offers: TOffer[] = [
     maxAdults: 4
   },
   {
-    id: crypto.randomUUID(),
+    id: '3',
     title: 'Wood and stone place 3',
     type: 'apartment',
     price: 120,
@@ -141,7 +142,7 @@ export const offers: TOffer[] = [
     maxAdults: 4
   },
   {
-    id: crypto.randomUUID(),
+    id: '4',
     title: 'Beautiful & luxurious studio at great location 4',
     type: 'apartment',
     price: 120,

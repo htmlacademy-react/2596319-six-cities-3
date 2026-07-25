@@ -25,10 +25,8 @@ export default function LoginForm() {
             required={false}
           />
         </div>
-        <Link to='/'>
-          <button className="login__submit form__submit button" type="submit">
+        <Link to='/' className="login__submit form__submit button">
             Sign in
-          </button>
         </Link>
       </form>
     </section>

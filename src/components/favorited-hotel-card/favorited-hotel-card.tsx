@@ -7,6 +7,7 @@ type TFavoritedHotelCard = {
 }
 
 export default function FavoritedHotelCard({card}: TFavoritedHotelCard) {
+  const rating = `${card.rating * 20}%`;
   const offerPath = `/offer/${card.id}`;
 
   return (
@@ -34,14 +35,14 @@ export default function FavoritedHotelCard({card}: TFavoritedHotelCard) {
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span style={{ width: '100%' }} />
+              <span style={{ width: rating }} />
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
           <h2 className="place-card__name">
-            Nice, cozy, warm big bed apartment
+            {card.title}
           </h2>
-          <p className="place-card__type">Apartment</p>
+          <p className="place-card__type">{card.type}</p>
         </div>
       </article>
     </Link>

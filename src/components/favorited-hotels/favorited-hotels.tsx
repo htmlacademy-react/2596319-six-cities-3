@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { TOffer } from '../../mocks/offers';
 import FavoritedHotelCard from '../favorited-hotel-card/favorited-hotel-card';
 
@@ -13,21 +14,18 @@ export default function FavoritedHotels({offers}: TFavoritedHotelProps) {
   );
 
   return (
-    <div>
+    <>
       {favoriteCities.map((cityName) => {
         const offersInCity = favoritedOffers.filter((offer) => offer.city.name === cityName);
-        const hotelCardsToRender = [];
-        for (let i = 0; i < offersInCity.length; i++) {
-          hotelCardsToRender.push(<FavoritedHotelCard key={i} card={offersInCity[i]}/>);
-        }
+        const hotelCardsToRender = offersInCity.map((offer) => <FavoritedHotelCard key={offer.id} card={offer}/>);
 
         return (
           <li className="favorites__locations-items" key={cityName}>
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
+                <Link to='/'>
                   <span>{cityName}</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="favorites__places">
@@ -36,6 +34,6 @@ export default function FavoritedHotels({offers}: TFavoritedHotelProps) {
           </li>
         );
       })}
-    </div>
+    </>
   );
 }
