@@ -32,7 +32,7 @@ export default function OfferPage({authorizationStatus, offers}: OfferPageProps)
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus}/>
+            <UserInfo authorizationStatus={authorizationStatus} userEmail='Oliver.conner@gmail.com' favoriteCount={3}/>
           </div>
         </div>
       </header>

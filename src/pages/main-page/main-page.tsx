@@ -5,6 +5,8 @@ import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const';
 import { TOffer } from '../../mocks/offers';
+import { CITY } from '../../mocks/city';
+import { useState } from 'react';
 
 type MainPageProps = {
   authorizationStatus: AuthorizationStatus;
@@ -12,6 +14,14 @@ type MainPageProps = {
 }
 
 export default function MainPage({authorizationStatus, offers}: MainPageProps): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
+  const [activeCity, setActiveCity] = useState<string>('Amsterdam');
+
+  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity);
+
+  function handleHover(offer?: TOffer) {
+    setActiveOffer(offer || null);
+  }
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -25,11 +35,11 @@ export default function MainPage({authorizationStatus, offers}: MainPageProps): 
         </div>
       </header>
       <main className="page__main page__main--index">
-        <CitiesTabs />
+        <CitiesTabs activeCity={activeCity} onCityClick={setActiveCity}/>
         <div className="cities">
           <div className="cities__places-container container">
-            <Hotels offers={offers} />
-            <HotelsMap />
+            <Hotels offers={filteredOffers} handleHover={handleHover} activeCity={activeCity}/>
+            <HotelsMap city={CITY} offers={filteredOffers} selectedOffer={activeOffer}/>
           </div>
         </div>
       </main>
