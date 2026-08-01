@@ -136,9 +136,7 @@ export default function OfferPage({authorizationStatus, offers}: OfferPageProps)
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <div className="near-places__list places__list">
-              <NearHotels offers={nearOffers} handleHover={handleOfferCardHover}/>
-            </div>
+            <NearHotels offers={nearOffers} handleHover={handleOfferCardHover}/>
           </section>
         </div>
       </main>

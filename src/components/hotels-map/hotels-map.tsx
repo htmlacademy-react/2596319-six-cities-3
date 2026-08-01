@@ -32,7 +32,7 @@ export default function HotelsMap({ offers, selectedOffer, className = 'cities__
   useEffect(() => {
     if (map) {
       const markerLayer = leaflet.layerGroup().addTo(map);
-      const pointsToRender = selectedOffer ? [...offers, selectedOffer] : offers;
+      const pointsToRender = offers;
 
       pointsToRender.forEach((offer) => {
         const { latitude, longitude } = offer.location;
