@@ -4,15 +4,27 @@ import Bookmark from '../bookmark/bookmark';
 
 type HotelCardProps = {
   card: TOffer;
+  handleHover: (offer?: TOffer) => void;
 }
 
-export default function HotelCard({card}: HotelCardProps): JSX.Element {
+export default function HotelCard({card, handleHover}: HotelCardProps): JSX.Element {
   const starsCount = `${card.rating * 20}%`;
+
+  function handleMouseOver() {
+    handleHover(card);
+  }
+
+  function handleMouseLeave() {
+    handleHover();
+  }
 
   const offerPath = `/offer/${card.id}`;
 
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card"
+      onMouseEnter={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+    >
       {card.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
 
       <div className="cities__image-wrapper place-card__image-wrapper">

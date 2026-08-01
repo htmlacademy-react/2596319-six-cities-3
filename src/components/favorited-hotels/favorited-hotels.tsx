@@ -23,7 +23,7 @@ export default function FavoritedHotels({offers}: TFavoritedHotelProps) {
           <li className="favorites__locations-items" key={cityName}>
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <Link to='/'>
+                <Link to='/' className='locations__item-link'>
                   <span>{cityName}</span>
                 </Link>
               </div>
