@@ -5,7 +5,6 @@ import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const';
 import { TOffer } from '../../mocks/offers';
-import { CITY } from '../../mocks/city';
 import { useState } from 'react';
 
 type MainPageProps = {
@@ -39,7 +38,9 @@ export default function MainPage({authorizationStatus, offers}: MainPageProps): 
         <div className="cities">
           <div className="cities__places-container container">
             <Hotels offers={filteredOffers} handleHover={handleHover} activeCity={activeCity}/>
-            <HotelsMap city={CITY} offers={filteredOffers} selectedOffer={activeOffer}/>
+            <div className="cities__right-section">
+              <HotelsMap offers={filteredOffers} selectedOffer={activeOffer}/>
+            </div>
           </div>
         </div>
       </main>

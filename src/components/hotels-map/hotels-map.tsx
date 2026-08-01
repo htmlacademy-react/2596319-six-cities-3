@@ -3,13 +3,12 @@ import 'leaflet/dist/leaflet.css';
 import { useRef, useEffect } from 'react';
 import { useMap } from './useMap';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
-import { TCity } from '../../mocks/city';
 import { TOffer } from '../../mocks/offers';
 
 type HotelsMapProps = {
-  city: TCity;
   offers: TOffer[];
   selectedOffer: TOffer | null;
+  className?: string;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -24,17 +23,19 @@ const currentCustomIcon = leaflet.icon({
   iconAnchor: [20, 40],
 });
 
-export default function HotelsMap({ city, offers, selectedOffer }: HotelsMapProps) {
+export default function HotelsMap({ offers, selectedOffer, className = 'cities__map' }: HotelsMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
+
+  const city = offers[0]?.city || selectedOffer?.city;
   const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {
       const markerLayer = leaflet.layerGroup().addTo(map);
+      const pointsToRender = offers;
 
-      offers.forEach((offer) => {
-        const latitude = offer.location.latitude;
-        const longitude = offer.location.longitude;
+      pointsToRender.forEach((offer) => {
+        const { latitude, longitude } = offer.location;
 
         if (latitude !== undefined && longitude !== undefined) {
           leaflet
@@ -60,9 +61,5 @@ export default function HotelsMap({ city, offers, selectedOffer }: HotelsMapProp
     }
   }, [map, offers, selectedOffer]);
 
-  return (
-    <div className="cities__right-section">
-      <section ref={mapRef} className="cities__map map" />
-    </div>
-  );
+  return <section ref={mapRef} className={`${className} map`} />;
 }

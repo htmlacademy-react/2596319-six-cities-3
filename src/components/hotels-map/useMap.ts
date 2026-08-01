@@ -1,24 +1,25 @@
 import leaflet from 'leaflet';
 import { useRef, useEffect, useState, MutableRefObject } from 'react';
-import { TCity } from '../../mocks/city';
+import { TOffer } from '../../mocks/offers';
 
-type UseMapProps = {
-  mapRef: MutableRefObject<HTMLElement | null>;
-  city: TCity;
-};
-
-export function useMap(mapRef: UseMapProps['mapRef'], city: TCity) {
+export function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: TOffer['city'] | undefined) {
   const [map, setMap] = useState<leaflet.Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
+    if (!city) {
+      return;
+    }
+
+    const { latitude, longitude, zoom } = city.location;
+
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: city.lat,
-          lng: city.lng,
+          lat: latitude,
+          lng: longitude,
         },
-        zoom: city.zoom,
+        zoom,
       });
 
       leaflet
@@ -33,8 +34,8 @@ export function useMap(mapRef: UseMapProps['mapRef'], city: TCity) {
 
       setMap(instance);
       isRenderedRef.current = true;
-    } else if (map && city) {
-      map.setView([city.lat, city.lng], city.zoom);
+    } else if (map) {
+      map.setView([latitude, longitude], zoom);
     }
   }, [mapRef, city, map]);
 

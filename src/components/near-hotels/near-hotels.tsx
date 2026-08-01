@@ -1,10 +1,23 @@
 import { TOffer } from '../../mocks/offers';
-import NearHotelCard from '../near-hotel-card/near-hotel-card';
+import HotelCard from '../hotel-card/hotel-card';
 
 type NearHotelsProps = {
   offers: TOffer[];
-}
+  handleHover: (offer?: TOffer) => void;
+};
 
-export default function NearHotels({offers}: NearHotelsProps) {
-  return offers.map((offer) => <NearHotelCard key={offer.id} card={offer}/>);
+export default function NearHotels({ offers, handleHover }: NearHotelsProps) {
+  return (
+    <div className="near-places__list places__list">
+      {offers.map((offer) => (
+        <HotelCard
+          key={offer.id}
+          card={offer}
+          handleHover={handleHover}
+          className="near-places__card"
+          imageWrapperClassName="near-places__image-wrapper"
+        />
+      ))}
+    </div>
+  );
 }
