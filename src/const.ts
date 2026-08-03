@@ -11,7 +11,14 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
+export enum Actions {
+  CityChange = 'CITY_CHANGE',
+  FillOffersInCity = 'FILL_OFFERS_IN_CITY'
+}
+
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 300;
-export const URL_MARKER_DEFAULT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
-export const URL_MARKER_CURRENT = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+export const URL_MARKER_DEFAULT = '../img/pin.svg';
+export const URL_MARKER_CURRENT = '../img/pin-active.svg';
+
+export const DEFAULT_CITY = 'Paris';

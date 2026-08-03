@@ -6,17 +6,27 @@ import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const';
 import { TOffer } from '../../mocks/offers';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { store } from '../../store/store';
+import { cityChangeAction, fillOffersInCityAction } from '../../store/action';
+
+type RootState = ReturnType<typeof store.getState>;
 
 type MainPageProps = {
   authorizationStatus: AuthorizationStatus;
-  offers: TOffer[];
 }
 
-export default function MainPage({authorizationStatus, offers}: MainPageProps): JSX.Element {
+export default function MainPage({authorizationStatus}: MainPageProps): JSX.Element {
+  const dispatch = useDispatch();
   const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
-  const [activeCity, setActiveCity] = useState<string>('Amsterdam');
 
-  const filteredOffers = offers.filter((offer) => offer.city.name === activeCity);
+  const activeCity = useSelector((state: RootState) => state.city);
+  const offersInCity = useSelector((state: RootState) => state.offersInCity);
+
+  function handleCityChange(city: string) {
+    dispatch(cityChangeAction(city));
+    dispatch(fillOffersInCityAction(city));
+  }
 
   function handleHover(offer?: TOffer) {
     setActiveOffer(offer || null);
@@ -34,12 +44,12 @@ export default function MainPage({authorizationStatus, offers}: MainPageProps): 
         </div>
       </header>
       <main className="page__main page__main--index">
-        <CitiesTabs activeCity={activeCity} onCityClick={setActiveCity}/>
+        <CitiesTabs activeCity={activeCity} onCityClick={handleCityChange}/>
         <div className="cities">
           <div className="cities__places-container container">
-            <Hotels offers={filteredOffers} handleHover={handleHover} activeCity={activeCity}/>
+            <Hotels offers={offersInCity} handleHover={handleHover} activeCity={activeCity}/>
             <div className="cities__right-section">
-              <HotelsMap offers={filteredOffers} selectedOffer={activeOffer}/>
+              <HotelsMap offers={offersInCity} selectedOffer={activeOffer}/>
             </div>
           </div>
         </div>

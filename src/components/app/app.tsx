@@ -21,12 +21,16 @@ export default function App({authorizationStatus, offers}: AppProps): JSX.Elemen
         <Route path={AppRoute.Main} element={
           <MainPage
             authorizationStatus={authorizationStatus}
-            offers={offers}
           />
         }
         />
         <Route path={AppRoute.Login} element={<PublicRoute authorizationStatus={authorizationStatus}><LoginPage /></PublicRoute>} />
-        <Route path={AppRoute.Favorites} element={<PrivateRoute authorizationStatus={authorizationStatus}><FavoritesPage offers={offers}/></PrivateRoute> } />
+        <Route path={AppRoute.Favorites} element={
+          <PrivateRoute authorizationStatus={authorizationStatus}>
+            <FavoritesPage offers={offers}/>
+          </PrivateRoute>
+        }
+        />
         <Route path={AppRoute.Offer} element={<OfferPage authorizationStatus={authorizationStatus} offers={offers}/>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
