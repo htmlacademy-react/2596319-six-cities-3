@@ -4,11 +4,11 @@ import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const';
-import { TOffer } from '../../mocks/offers';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { TOffer, offers } from '../../mocks/offers';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { store } from '../../store/store';
-import { cityChangeAction, fillOffersInCityAction } from '../../store/action';
+import { cityChangeAction, fillOffersAction } from '../../store/action';
 
 type RootState = ReturnType<typeof store.getState>;
 
@@ -18,19 +18,25 @@ type MainPageProps = {
 
 export default function MainPage({authorizationStatus}: MainPageProps): JSX.Element {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fillOffersAction(offers));
+  }, [dispatch]);
+
   const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
 
   const activeCity = useSelector((state: RootState) => state.city);
-  const offersInCity = useSelector((state: RootState) => state.offersInCity);
+  const allOffers = useSelector((state: RootState) => state.offers);
+  const offersInCity = allOffers?.filter((offer) => offer.city.name === activeCity) ?? [];
 
   function handleCityChange(city: string) {
     dispatch(cityChangeAction(city));
-    dispatch(fillOffersInCityAction(city));
   }
 
   function handleHover(offer?: TOffer) {
     setActiveOffer(offer || null);
   }
+
   return (
     <div className="page page--gray page--main">
       <header className="header">

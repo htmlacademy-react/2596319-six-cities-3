@@ -1,4 +1,5 @@
 import CityTab from '../city-tab/city-tab';
+import { CITIES } from '../../const';
 
 type CitiesTabsProps = {
   activeCity: string;
@@ -6,15 +7,13 @@ type CitiesTabsProps = {
 };
 
 export default function CitiesTabs({ activeCity, onCityClick }: CitiesTabsProps) {
-  const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-
   return (
     <>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            {cities.map((city) => (
+            {CITIES.map((city) => (
               <CityTab
                 key={city}
                 cityName={city}

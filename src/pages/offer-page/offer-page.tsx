@@ -31,7 +31,7 @@ export default function OfferPage({authorizationStatus, offers}: OfferPageProps)
   }
 
   const rating = `${currentOffer.rating * 20}%`;
-  const nearOffers = offers.filter((offer) => String(offer.id) !== id);
+  const nearOffers = offers.filter((offer) => String(offer.id) !== currentOffer.id && offer.city.name === currentOffer.city.name);
 
   return (
     <div className="page">
@@ -50,11 +50,11 @@ export default function OfferPage({authorizationStatus, offers}: OfferPageProps)
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {currentOffer.images.map((image) => (
-                <div className="offer__image-wrapper" key={currentOffer.images.indexOf(image)}>
+                <div className="offer__image-wrapper" key={image}>
                   <img
                     className="offer__image"
                     src={image}
-                    alt="Photo studio"
+                    alt={currentOffer.title}
                   />
                 </div>
               ))}
@@ -95,7 +95,7 @@ export default function OfferPage({authorizationStatus, offers}: OfferPageProps)
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  {currentOffer.goods.map((item) => <li className="offer__inside-item" key={currentOffer.goods.indexOf(item)}>{item}</li>)}
+                  {currentOffer.goods.map((item) => <li className="offer__inside-item" key={item}>{item}</li>)}
                 </ul>
               </div>
               <div className="offer__host">
