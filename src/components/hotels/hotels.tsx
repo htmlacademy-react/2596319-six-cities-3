@@ -12,7 +12,6 @@ type HotelsProps = {
 export default function Hotels({ offers, handleHover, activeCity }: HotelsProps) {
   const [activeSort, setActiveSort] = useState<string>('popular');
   const [sortedOffers, setSortedOffers] = useState<TOffer[]>(offers);
-
   useEffect(() => {
     const sorted = [...offers];
 
