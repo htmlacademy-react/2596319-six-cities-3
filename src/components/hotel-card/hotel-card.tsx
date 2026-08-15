@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TOffer } from '../../mocks/offers';
+import { TOffer } from '../../const/types';
 import Bookmark from '../bookmark/bookmark';
 
 type HotelCardProps = {
@@ -36,7 +36,7 @@ export default function HotelCard({card,
         <Link to={offerPath}>
           <img
             className="place-card__image"
-            src={card.images[0]}
+            src={card.previewImage}
             width={260}
             height={200}
             alt="Place image"

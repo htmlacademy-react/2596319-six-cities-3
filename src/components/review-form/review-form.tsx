@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../const';
+import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../const/const';
 
 export default function ReviewForm() {
   const [currentReviewState, setReviewState] = useState({ rating: 0, comment: '' });
