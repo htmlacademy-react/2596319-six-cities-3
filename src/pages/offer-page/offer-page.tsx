@@ -27,7 +27,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
 
-  const [activeOffer, setActiveOffer] = useState<TOfferExpanded | null>(null);
+  const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
   const [currentOffer, setCurrentOffer] = useState<TOfferExpanded | null>(null);
   const [reviews, setReviews] = useState<TReview[]>([]);
   const [nearOffers, setNearOffers] = useState<TOffer[]>([]);
@@ -67,7 +67,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
     };
   }, [id, dispatch]);
 
-  function handleOfferCardHover(offer?: TOfferExpanded) {
+  function handleOfferCardHover(offer?: TOffer) {
     setActiveOffer(offer || null);
   }
 
