@@ -1,6 +1,6 @@
 import leaflet from 'leaflet';
 import { useRef, useEffect, useState, MutableRefObject } from 'react';
-import { TOffer } from '../../mocks/offers';
+import { TOffer } from '../../const/types';
 
 export function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: TOffer['city'] | undefined) {
   const [map, setMap] = useState<leaflet.Map | null>(null);
