@@ -1,4 +1,4 @@
-import { TOffer } from '../../mocks/offers';
+import { TOffer } from '../../const/types';
 import HotelCard from '../hotel-card/hotel-card';
 
 type NearHotelsProps = {
