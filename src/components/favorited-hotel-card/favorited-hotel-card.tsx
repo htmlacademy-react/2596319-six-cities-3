@@ -1,4 +1,4 @@
-import { TOffer } from '../../mocks/offers';
+import { TOffer } from '../../const/types';
 import Bookmark from '../bookmark/bookmark';
 import { Link } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ export default function FavoritedHotelCard({card}: TFavoritedHotelCard) {
         <div className="favorites__image-wrapper place-card__image-wrapper">
           <img
             className="place-card__image"
-            src={card.images[0]}
+            src={card.previewImage}
             width={150}
             height={110}
             alt="Place image"

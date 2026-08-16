@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus } from '../../const/const';
 
 type PublicRouteProps = {
   authorizationStatus: AuthorizationStatus;

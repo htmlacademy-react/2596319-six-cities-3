@@ -2,8 +2,8 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRef, useEffect } from 'react';
 import { useMap } from './useMap';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
-import { TOffer } from '../../mocks/offers';
+import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const/const';
+import { TOffer } from '../../const/types';
 
 type HotelsMapProps = {
   offers: TOffer[];

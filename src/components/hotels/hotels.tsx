@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import HotelCard from '../hotel-card/hotel-card';
 import HotelsSort from '../hotels-sort/hotels-sort';
-import { TOffer } from '../../mocks/offers';
+import { TOffer } from '../../const/types';
 
 type HotelsProps = {
   offers: TOffer[];
@@ -12,11 +12,6 @@ type HotelsProps = {
 export default function Hotels({ offers, handleHover, activeCity }: HotelsProps) {
   const [activeSort, setActiveSort] = useState<string>('popular');
   const [sortedOffers, setSortedOffers] = useState<TOffer[]>(offers);
-
-  useEffect(() => {
-    setSortedOffers(offers);
-  }, [activeCity]);
-
   useEffect(() => {
     const sorted = [...offers];
 

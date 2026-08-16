@@ -3,31 +3,26 @@ import UserInfo from '../../components/user-info/user-info';
 import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
-import { AuthorizationStatus } from '../../const';
-import { TOffer, offers } from '../../mocks/offers';
-import { useState, useEffect } from 'react';
+import { AuthorizationStatus } from '../../const/const';
+import { TOffer } from '../../const/types';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from '../../store/store';
-import { cityChangeAction, fillOffersAction } from '../../store/action';
+import { cityChangeAction } from '../../store/action';
 
 type RootState = ReturnType<typeof store.getState>;
 
 type MainPageProps = {
   authorizationStatus: AuthorizationStatus;
-}
+};
 
-export default function MainPage({authorizationStatus}: MainPageProps): JSX.Element {
+export default function MainPage({ authorizationStatus }: MainPageProps): JSX.Element {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fillOffersAction(offers));
-  }, [dispatch]);
-
   const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
 
   const activeCity = useSelector((state: RootState) => state.city);
   const allOffers = useSelector((state: RootState) => state.offers);
-  const offersInCity = allOffers?.filter((offer) => offer.city.name === activeCity) ?? [];
+  const offersInCity = allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase());
 
   function handleCityChange(city: string) {
     dispatch(cityChangeAction(city));

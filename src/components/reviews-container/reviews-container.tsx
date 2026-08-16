@@ -1,4 +1,4 @@
-import { TReview } from '../../mocks/reviews';
+import { TReview } from '../../const/types';
 import Review from '../review/review';
 
 type ReviewsContainerProps = {

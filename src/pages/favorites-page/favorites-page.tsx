@@ -1,7 +1,7 @@
 import Logo from '../../components/logo/logo';
 import UserInfo from '../../components/user-info/user-info';
-import { AuthorizationStatus } from '../../const';
-import { TOffer } from '../../mocks/offers';
+import { AuthorizationStatus } from '../../const/const';
+import { TOffer } from '../../const/types';
 import FavoritedHotels from '../../components/favorited-hotels/favorited-hotels';
 
 type TFavoritePageProps = {

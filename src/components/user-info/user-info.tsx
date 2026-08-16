@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus } from '../../const/const';
 import { Link } from 'react-router-dom';
 
 type UserInfoProps = {
