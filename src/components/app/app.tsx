@@ -18,7 +18,6 @@ type AppProps = {
 export default function App({authorizationStatus}: AppProps): JSX.Element {
   const offers = useSelector((state: State) => state.offers);
   const isOffersLoading = useSelector((state: State) => state.isOffersLoading);
-  console.log('offers in app ', offers)
 
   if (isOffersLoading) {
     return <Spinner />;
