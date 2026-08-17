@@ -82,6 +82,10 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
     return <NotFoundPage />;
   }
 
+  const handleCommentSubmit = (newReview: TReview) => {
+    setReviews((prevReviews) => [...prevReviews, newReview]);
+  };
+
   const rating = `${currentOffer.rating * 20}%`;
 
   return (
@@ -169,7 +173,9 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
               </div>
               <section className="offer__reviews reviews">
                 <ReviewsContainer reviews={reviews} />
-                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <ReviewForm offerId={currentOffer.id} onCommentSubmit={handleCommentSubmit} />
+                )}
               </section>
             </div>
           </div>
