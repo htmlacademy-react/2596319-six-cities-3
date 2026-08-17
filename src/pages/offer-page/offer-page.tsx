@@ -13,9 +13,10 @@ import { useEffect, useState } from 'react';
 import {
   fetchCommentsAction,
   fetchOffersNearbyAction,
-  fetchSingleOfferAction
+  fetchSingleOfferAction,
+  State
 } from '../../store/api-actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/api-actions';
 import { Spinner } from '../../components/spinner/spinner';
 
@@ -67,6 +68,8 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
     };
   }, [id, dispatch]);
 
+  const userData = useSelector((state: State) => state.userData);
+
   function handleOfferCardHover(offer?: TOffer) {
     setActiveOffer(offer || null);
   }
@@ -89,7 +92,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus} userEmail="Oliver.conner@gmail.com" favoriteCount={3} />
+            <UserInfo authorizationStatus={authorizationStatus} userEmail={userData?.email} favoriteCount={3} />
           </div>
         </div>
       </header>

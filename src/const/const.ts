@@ -15,6 +15,8 @@ export enum Actions {
   CityChange = 'CITY_CHANGE',
   FillOffers = 'FILL_OFFERS',
   SetOffersLoadingStatus = 'SET_OFFERS_LOADING_STATUS',
+  ChangeAuthorizationStatus = 'CHANGE_AUTHORIZATION_STATUS',
+  FillUserData = 'FILL_USER_DATA'
 }
 
 export enum APIActions {
@@ -23,7 +25,9 @@ export enum APIActions {
   FetchOffersNearby = 'FETCH_OFFERS_NEARBY',
   FetchFavoritedOffers = 'FETCH_FAVORITED_OFFERS',
   ChangeFavoritedStatus = 'CHANGE_FAVORITED_STATUS',
-  FetchComments = 'FETCH_COMMENTS'
+  FetchComments = 'FETCH_COMMENTS',
+  CheckAuthorizationStatus = 'CHECK_AUTHORIZATION_STATUS',
+  Login = 'LOGIN'
 }
 
 export enum APIRoute {
@@ -33,6 +37,7 @@ export enum APIRoute {
   FavoritedOffers = '/favorite',
   ChangeFavoritedStatus = '/favorite/{offerId}/{status}',
   Comments = '/comments/{offerId}',
+  Login = '/login'
 }
 
 export const MIN_COMMENT_LENGTH = 50;
@@ -44,3 +49,4 @@ export const DEFAULT_CITY = 'Paris';
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export const API_URL = 'https://15.design.htmlacademy.pro/six-cities';
+export const AUTH_TOKEN_NAME = 'six-cities-token';

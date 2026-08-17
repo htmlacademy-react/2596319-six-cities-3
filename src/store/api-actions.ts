@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { TOffer, TOfferExpanded, TReview } from '../const/types';
-import { APIActions, APIRoute } from '../const/const';
+import { TOffer, TOfferExpanded, TReview, TAuthData, TUserData } from '../const/types';
+import { APIActions, APIRoute, AuthorizationStatus } from '../const/const';
 import { store } from './store';
-import { fillOffersAction, setOffersLoadingStatusAction } from './action';
+import { authorizationStatusChangeAction, fillOffersAction, fillUserDataAction, setOffersLoadingStatusAction } from './action';
+import { saveToken } from '../token';
 
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -33,6 +34,7 @@ export const fetchSingleOfferAction = createAsyncThunk<TOfferExpanded, string, T
     return data;
   }
 );
+
 export const fetchOffersNearbyAction = createAsyncThunk<TOffer[], string, ThunkConfig>(
   APIActions.FetchOffersNearby,
   async (offerId, { extra: api }) => {
@@ -74,5 +76,32 @@ export const fetchCommentsAction = createAsyncThunk<TReview[], string, ThunkConf
       APIRoute.Comments.replace('{offerId}', offerId)
     );
     return data;
+  }
+);
+
+export const checkAuthorizationStatusAction = createAsyncThunk<
+  void,
+  undefined,
+  ThunkConfig
+>(
+  APIActions.CheckAuthorizationStatus,
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<TUserData>(APIRoute.Login);
+      dispatch(fillUserDataAction(data));
+      dispatch(authorizationStatusChangeAction(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(authorizationStatusChangeAction(AuthorizationStatus.NoAuth));
+    }
+  }
+);
+
+export const loginAction = createAsyncThunk<void, TAuthData, ThunkConfig>(
+  APIActions.Login,
+  async ({ email, password }, { dispatch, extra: api }) => {
+    const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
+    saveToken(data.token);
+    dispatch(fillUserDataAction(data));
+    dispatch(authorizationStatusChangeAction(AuthorizationStatus.Auth));
   }
 );

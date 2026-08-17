@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from '../../store/store';
 import { cityChangeAction } from '../../store/action';
+import { State } from '../../store/api-actions';
 
 type RootState = ReturnType<typeof store.getState>;
 
@@ -23,6 +24,7 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
   const activeCity = useSelector((state: RootState) => state.city);
   const allOffers = useSelector((state: RootState) => state.offers);
   const offersInCity = allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase());
+  const userData = useSelector((state: State) => state.userData);
 
   function handleCityChange(city: string) {
     dispatch(cityChangeAction(city));
@@ -40,7 +42,7 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus} userEmail='Oliver.conner@gmail.com' favoriteCount={3}/>
+            <UserInfo authorizationStatus={authorizationStatus} userEmail={userData?.email} favoriteCount={3}/>
           </div>
         </div>
       </header>

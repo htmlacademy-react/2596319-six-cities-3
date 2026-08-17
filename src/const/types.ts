@@ -66,3 +66,16 @@ export type TReview = {
   comment: string;
   rating: number;
 }
+
+export type TAuthData = {
+  email: string;
+  password: string;
+}
+
+export type TUserData = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+  email: string;
+  token: string;
+}

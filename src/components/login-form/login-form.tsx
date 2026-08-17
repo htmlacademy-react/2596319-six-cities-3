@@ -1,23 +1,25 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, FormEvent, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppDispatch, loginAction } from '../../store/api-actions';
+import { AppRoute } from '../../const/const';
+import { useDispatch } from 'react-redux';
 
 export default function LoginForm() {
   const [currentLoginFormState, setLoginFormState] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  function handleEmailChange(evt: React.ChangeEvent<HTMLInputElement>): void {
-    const email = evt.target.value;
+  function handleEmailChange(evt: ChangeEvent<HTMLInputElement>): void {
     setLoginFormState((prevState) => ({
       ...prevState,
-      email: email,
+      email: evt.target.value,
     }));
   }
 
-  function handlePasswordChange(evt: React.ChangeEvent<HTMLInputElement>): void {
-    const password = evt.target.value;
+  function handlePasswordChange(evt: ChangeEvent<HTMLInputElement>): void {
     setLoginFormState((prevState) => ({
       ...prevState,
-      password: password,
+      password: evt.target.value,
     }));
   }
 
@@ -31,17 +33,21 @@ export default function LoginForm() {
     );
   }
 
-  function handleLinkClick(evt: React.MouseEvent<HTMLAnchorElement>): void {
+  function handleSubmit(evt: FormEvent<HTMLFormElement>): void {
     evt.preventDefault();
     if (isValidLogin()) {
-      navigate('/');
+      dispatch(loginAction(currentLoginFormState))
+        .unwrap()
+        .then(() => {
+          navigate(AppRoute.Main);
+        });
     }
   }
 
   return (
     <section className="login">
       <h1 className="login__title">Sign in</h1>
-      <form className="login__form form">
+      <form className="login__form form" onSubmit={handleSubmit}>
         <div className="login__input-wrapper form__input-wrapper">
           <label className="visually-hidden">E-mail</label>
           <input
@@ -49,7 +55,7 @@ export default function LoginForm() {
             type="email"
             name="email"
             placeholder="Email"
-            required={false}
+            required
             value={currentLoginFormState.email}
             onChange={handleEmailChange}
           />
@@ -61,19 +67,18 @@ export default function LoginForm() {
             type="password"
             name="password"
             placeholder="Password"
-            required={false}
+            required
             value={currentLoginFormState.password}
             onChange={handlePasswordChange}
           />
         </div>
-        <Link
-          to="/"
+        <button
           className="login__submit form__submit button"
-          aria-disabled={!isValidLogin()}
-          onClick={handleLinkClick}
+          type="submit"
+          disabled={!isValidLogin()}
         >
           Sign in
-        </Link>
+        </button>
       </form>
     </section>
   );
