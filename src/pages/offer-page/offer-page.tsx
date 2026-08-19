@@ -69,6 +69,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   }, [id, dispatch]);
 
   const userData = useSelector((state: State) => state.user.userData);
+  const favoritedOffersCount = useSelector((state: State) => state.offers.offers).filter((offer) => offer.isFavorite).length;
 
   function handleOfferCardHover(offer?: TOffer) {
     setActiveOffer(offer || null);
@@ -96,7 +97,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus} userData={userData} />
+            <UserInfo authorizationStatus={authorizationStatus} userData={userData} favoritesCount={favoritedOffersCount}/>
           </div>
         </div>
       </header>
@@ -120,7 +121,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
               )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{currentOffer.title}</h1>
-                <Bookmark isChecked={currentOffer.isFavorite} />
+                <Bookmark offerId={currentOffer.id} isFavorite={currentOffer.isFavorite} forOfferPage />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">

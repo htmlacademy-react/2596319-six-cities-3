@@ -31,7 +31,7 @@ export default function FavoritedHotelCard({card}: TFavoritedHotelCard) {
                 /&nbsp;night
               </span>
             </div>
-            <Bookmark isChecked={card.isFavorite}/>
+            <Bookmark offerId={card.id} isFavorite={card.isFavorite}/>
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">

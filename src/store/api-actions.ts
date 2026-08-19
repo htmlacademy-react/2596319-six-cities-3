@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 import { TOffer, TOfferExpanded, TReview, TAuthData, TUserData, TCommentData } from '../const/types';
 import { APIActions, APIRoute } from '../const/const';
 import { store } from './store';
-import { saveToken } from '../token';
+import { dropToken, saveToken } from '../token';
 
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -109,5 +109,13 @@ export const loginAction = createAsyncThunk<
     const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
     saveToken(data.token);
     return data;
+  }
+);
+
+export const logoutAction = createAsyncThunk<void, undefined, ThunkConfig>(
+  APIActions.Logout,
+  async (_arg, { extra: api }) => {
+    await api.delete(APIRoute.Logout);
+    dropToken();
   }
 );

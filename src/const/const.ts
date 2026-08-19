@@ -28,7 +28,8 @@ export enum APIActions {
   FetchComments = 'comments/fetchComments',
   PostNewComment = 'comments/postComment',
   CheckAuthorizationStatus = 'user/authStatus',
-  Login = 'user/login'
+  Login = 'user/login',
+  Logout = 'user/logout'
 }
 
 export enum APIRoute {
@@ -38,7 +39,8 @@ export enum APIRoute {
   FavoritedOffers = '/favorite',
   ChangeFavoritedStatus = '/favorite/{offerId}/{status}',
   Comments = '/comments/{offerId}',
-  Login = '/login'
+  Login = '/login',
+  Logout = '/logout'
 }
 
 export const MIN_COMMENT_LENGTH = 50;

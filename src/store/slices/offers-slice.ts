@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_CITY } from '../../const/const';
 import { TOffer } from '../../const/types';
-import { fetchOffersAction } from '../api-actions';
+import { changeFavoritedStatusAction, fetchOffersAction } from '../api-actions';
 
 type OffersState = {
   city: string;
@@ -25,6 +25,14 @@ export const offersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(changeFavoritedStatusAction.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+
+        const index = state.offers.findIndex((offer) => offer.id === updatedOffer.id);
+        if (index !== -1) {
+          state.offers[index] = updatedOffer;
+        }
+      })
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersLoading = true;
       })
