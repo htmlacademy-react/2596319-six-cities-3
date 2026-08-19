@@ -68,7 +68,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
     };
   }, [id, dispatch]);
 
-  const userData = useSelector((state: State) => state.userData);
+  const userData = useSelector((state: State) => state.user.userData);
 
   function handleOfferCardHover(offer?: TOffer) {
     setActiveOffer(offer || null);

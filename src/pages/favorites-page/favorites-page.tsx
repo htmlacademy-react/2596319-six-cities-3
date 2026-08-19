@@ -11,7 +11,7 @@ type TFavoritePageProps = {
 }
 
 export default function FavoritesPage({offers}: TFavoritePageProps) {
-  const userData: TUserData | null = useSelector((state: State) => state.userData);
+  const userData: TUserData | null = useSelector((state: State) => state.user.userData);
   return (
     <div className="page">
       <header className="header">
