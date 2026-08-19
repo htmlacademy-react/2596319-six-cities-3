@@ -5,10 +5,10 @@ import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const/const';
 import { TOffer } from '../../const/types';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from '../../store/store';
-import { cityChangeAction } from '../../store/action';
+import { setCity } from '../../store/slices/offers-slice';
 import { State } from '../../store/api-actions';
 
 type RootState = ReturnType<typeof store.getState>;
@@ -21,18 +21,18 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
   const dispatch = useDispatch();
   const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
 
-  const activeCity = useSelector((state: RootState) => state.city);
-  const allOffers = useSelector((state: RootState) => state.offers);
+  const activeCity = useSelector((state: RootState) => state.offers.city);
+  const allOffers = useSelector((state: RootState) => state.offers.offers);
   const offersInCity = allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase());
-  const userData = useSelector((state: State) => state.userData);
+  const userData = useSelector((state: State) => state.user.userData);
 
-  function handleCityChange(city: string) {
-    dispatch(cityChangeAction(city));
-  }
+  const handleCityChange = useCallback((city: string) => {
+    dispatch(setCity(city));
+  }, [dispatch]);
 
-  function handleHover(offer?: TOffer) {
+  const handleHover = useCallback((offer?: TOffer) => {
     setActiveOffer(offer || null);
-  }
+  }, []);
 
   return (
     <div className="page page--gray page--main">
@@ -42,7 +42,7 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus} userEmail={userData?.email} favoriteCount={3}/>
+            <UserInfo authorizationStatus={authorizationStatus} userData={userData}/>
           </div>
         </div>
       </header>

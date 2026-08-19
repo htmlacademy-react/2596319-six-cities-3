@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { TOffer } from '../../const/types';
 import Bookmark from '../bookmark/bookmark';
+import { memo } from 'react';
 
 type HotelCardProps = {
   card: TOffer;
@@ -9,7 +10,7 @@ type HotelCardProps = {
   handleHover: (offer?: TOffer) => void;
 };
 
-export default function HotelCard({card,
+function HotelCard({card,
   className = 'cities__card',
   imageWrapperClassName = 'cities__image-wrapper',
   handleHover}: HotelCardProps): JSX.Element {
@@ -69,3 +70,6 @@ export default function HotelCard({card,
     </article>
   );
 }
+
+const HotelCardMemo = memo(HotelCard);
+export default HotelCardMemo;

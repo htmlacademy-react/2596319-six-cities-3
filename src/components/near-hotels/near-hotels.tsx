@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { TOffer } from '../../const/types';
 import HotelCard from '../hotel-card/hotel-card';
 
@@ -6,7 +7,7 @@ type NearHotelsProps = {
   handleHover: (offer?: TOffer) => void;
 };
 
-export default function NearHotels({ offers, handleHover }: NearHotelsProps) {
+function NearHotels({ offers, handleHover }: NearHotelsProps) {
   return (
     <div className="near-places__list places__list">
       {offers.map((offer) => (
@@ -21,3 +22,6 @@ export default function NearHotels({ offers, handleHover }: NearHotelsProps) {
     </div>
   );
 }
+
+const memorizedNearHotels = memo(NearHotels);
+export default memorizedNearHotels;

@@ -20,15 +20,15 @@ export enum Actions {
 }
 
 export enum APIActions {
-  FetchOffers = 'FETCH_OFFERS',
-  FetchSingleOffer = 'FETCH_SINGLE_OFFER',
-  FetchOffersNearby = 'FETCH_OFFERS_NEARBY',
-  FetchFavoritedOffers = 'FETCH_FAVORITED_OFFERS',
-  ChangeFavoritedStatus = 'CHANGE_FAVORITED_STATUS',
-  FetchComments = 'FETCH_COMMENTS',
-  PostNewComment = 'POST_NEW_COMMENT',
-  CheckAuthorizationStatus = 'CHECK_AUTHORIZATION_STATUS',
-  Login = 'LOGIN'
+  FetchOffers = 'offers/fetchOffers',
+  FetchSingleOffer = 'offers/fetchSingleOffer',
+  FetchOffersNearby = 'offers/fetchOffersNearby',
+  FetchFavoritedOffers = 'offers/fetchFavoritedOffers',
+  ChangeFavoritedStatus = 'favorites/changeStatus',
+  FetchComments = 'comments/fetchComments',
+  PostNewComment = 'comments/postComment',
+  CheckAuthorizationStatus = 'user/authStatus',
+  Login = 'user/login'
 }
 
 export enum APIRoute {

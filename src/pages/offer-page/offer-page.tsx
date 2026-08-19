@@ -96,7 +96,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus} userEmail={userData?.email} favoriteCount={3} />
+            <UserInfo authorizationStatus={authorizationStatus} userData={userData} />
           </div>
         </div>
       </header>

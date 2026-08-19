@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { TReview } from '../../const/types';
 
 type ReviewProps = {
   review: TReview;
 }
 
-export default function Review({review}: ReviewProps) {
+function Review({review}: ReviewProps) {
   const rating = `${review.rating * 20}%`;
   return (
     <li className="reviews__item">
@@ -40,3 +41,6 @@ export default function Review({review}: ReviewProps) {
     </li>
   );
 }
+
+const memorizedReview = memo(Review);
+export default memorizedReview;

@@ -1,14 +1,17 @@
 import Logo from '../../components/logo/logo';
 import UserInfo from '../../components/user-info/user-info';
 import { AuthorizationStatus } from '../../const/const';
-import { TOffer } from '../../const/types';
+import { TOffer, TUserData } from '../../const/types';
 import FavoritedHotels from '../../components/favorited-hotels/favorited-hotels';
+import { useSelector } from 'react-redux';
+import { State } from '../../store/api-actions';
 
 type TFavoritePageProps = {
   offers: TOffer[];
 }
 
 export default function FavoritesPage({offers}: TFavoritePageProps) {
+  const userData: TUserData | null = useSelector((state: State) => state.userData);
   return (
     <div className="page">
       <header className="header">
@@ -17,7 +20,7 @@ export default function FavoritesPage({offers}: TFavoritePageProps) {
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={AuthorizationStatus.Auth} userEmail='Oliver.conner@gmail.com' favoriteCount={3}/>
+            <UserInfo authorizationStatus={AuthorizationStatus.Auth} userData={userData}/>
           </div>
         </div>
       </header>

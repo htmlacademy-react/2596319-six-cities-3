@@ -1,9 +1,10 @@
+import { memo } from 'react';
 
 type BookmarkProps = {
   isChecked: boolean;
 }
 
-export default function Bookmark({isChecked}: BookmarkProps) {
+function Bookmark({isChecked}: BookmarkProps) {
   return isChecked ?
     <button
       className="place-card__bookmark-button place-card__bookmark-button--active button"
@@ -22,3 +23,7 @@ export default function Bookmark({isChecked}: BookmarkProps) {
       <span className="visually-hidden">To bookmarks</span>
     </button>;
 }
+
+
+const memorizedBookmark = memo(Bookmark);
+export default memorizedBookmark;

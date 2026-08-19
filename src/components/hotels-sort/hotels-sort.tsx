@@ -34,7 +34,7 @@ export default function HotelsSort({ activeSort, onSortChange }: HotelsSortProps
 
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by </span>
 
       <span
         className="places__sorting-type"
