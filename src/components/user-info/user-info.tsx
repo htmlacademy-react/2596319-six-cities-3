@@ -22,9 +22,9 @@ export default function UserInfo(props: UserInfoProps) {
           </Link>
         </li>
         <li className="header__nav-item">
-          <a className="header__nav-link" href="#">
+          <Link to='/login' className="header__nav-link">
             <span className="header__signout">Sign out</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
@@ -32,9 +32,9 @@ export default function UserInfo(props: UserInfoProps) {
     <nav className="header__nav">
       <ul className="header__nav-list">
         <li className="header__nav-item">
-          <a className="header__nav-link" href="#">
+          <Link to='/login' className="header__nav-link">
             <span className="header__signout">Log in</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
