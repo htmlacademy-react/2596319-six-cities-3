@@ -48,6 +48,9 @@ export default function ReviewForm({ offerId, onCommentSubmit }: ReviewFormProps
       })
       .catch(() => {
         setIsSubmitting(false);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
   }
 
