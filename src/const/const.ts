@@ -26,6 +26,7 @@ export enum APIActions {
   FetchFavoritedOffers = 'FETCH_FAVORITED_OFFERS',
   ChangeFavoritedStatus = 'CHANGE_FAVORITED_STATUS',
   FetchComments = 'FETCH_COMMENTS',
+  PostNewComment = 'POST_NEW_COMMENT',
   CheckAuthorizationStatus = 'CHECK_AUTHORIZATION_STATUS',
   Login = 'LOGIN'
 }

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { TOffer, TOfferExpanded, TReview, TAuthData, TUserData } from '../const/types';
+import { TOffer, TOfferExpanded, TReview, TAuthData, TUserData, TCommentData } from '../const/types';
 import { APIActions, APIRoute, AuthorizationStatus } from '../const/const';
 import { store } from './store';
 import { authorizationStatusChangeAction, fillOffersAction, fillUserDataAction, setOffersLoadingStatusAction } from './action';
@@ -74,6 +74,17 @@ export const fetchCommentsAction = createAsyncThunk<TReview[], string, ThunkConf
   async (offerId, { extra: api }) => {
     const { data } = await api.get<TReview[]>(
       APIRoute.Comments.replace('{offerId}', offerId)
+    );
+    return data;
+  }
+);
+
+export const postCommentAction = createAsyncThunk<TReview, TCommentData, ThunkConfig>(
+  APIActions.PostNewComment,
+  async ({ offerId, comment, rating }, { extra: api }) => {
+    const { data } = await api.post<TReview>(
+      APIRoute.Comments.replace('{offerId}', offerId),
+      { comment, rating }
     );
     return data;
   }

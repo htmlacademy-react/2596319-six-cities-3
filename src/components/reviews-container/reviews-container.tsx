@@ -5,14 +5,16 @@ type ReviewsContainerProps = {
   reviews: TReview[];
 };
 
-export default function ReviewsContainer({reviews}: ReviewsContainerProps) {
+export default function ReviewsContainer({ reviews }: ReviewsContainerProps) {
   return (
     <>
       <h2 className="reviews__title">
         Reviews · <span className="reviews__amount">{reviews.length}</span>
       </h2>
       <ul className="reviews__list">
-        {reviews.map((review) => <Review key={reviews.indexOf(review)} review={review}/>)}
+        {reviews.map((review) => (
+          <Review key={review.id} review={review} />
+        ))}
       </ul>
     </>
   );

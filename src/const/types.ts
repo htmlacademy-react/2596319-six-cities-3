@@ -79,3 +79,9 @@ export type TUserData = {
   email: string;
   token: string;
 }
+
+export type TCommentData = {
+  offerId: string;
+  comment: string;
+  rating: number;
+};
