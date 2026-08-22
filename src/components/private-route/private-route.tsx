@@ -10,7 +10,7 @@ type PrivateRouteProps = {
 
 export function PrivateRoute(props: PrivateRouteProps) {
   const { children } = props;
-  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <Spinner />;
