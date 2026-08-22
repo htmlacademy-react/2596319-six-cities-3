@@ -5,7 +5,7 @@ import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const/const';
 import { TOffer } from '../../const/types';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from '../../store/store';
 import { setCity } from '../../store/slices/offers-slice';
@@ -23,7 +23,10 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
 
   const activeCity = useSelector((state: RootState) => state.offers.city);
   const allOffers = useSelector((state: RootState) => state.offers.offers);
-  const offersInCity = allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase());
+  const offersInCity = useMemo(
+    () => allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase()),
+    [allOffers, activeCity]
+  );
   const userData = useSelector((state: State) => state.user.userData);
 
   const handleCityChange = useCallback((city: string) => {
