@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { TReview } from '../../const/types';
 import Review from '../review/review';
 
@@ -5,7 +6,7 @@ type ReviewsContainerProps = {
   reviews: TReview[];
 };
 
-export default function ReviewsContainer({ reviews }: ReviewsContainerProps) {
+function ReviewsContainer({ reviews }: ReviewsContainerProps) {
   return (
     <>
       <h2 className="reviews__title">
@@ -19,3 +20,7 @@ export default function ReviewsContainer({ reviews }: ReviewsContainerProps) {
     </>
   );
 }
+
+const memorizeedReviewsContainer = memo(ReviewsContainer);
+
+export default memorizeedReviewsContainer;

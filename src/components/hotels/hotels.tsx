@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import HotelCard from '../hotel-card/hotel-card';
 import HotelsSort from '../hotels-sort/hotels-sort';
 import { TOffer } from '../../const/types';
@@ -12,7 +12,7 @@ type HotelsProps = {
 export default function Hotels({ offers, handleHover, activeCity }: HotelsProps) {
   const [activeSort, setActiveSort] = useState<string>('popular');
   const [sortedOffers, setSortedOffers] = useState<TOffer[]>(offers);
-  useEffect(() => {
+  useMemo(() => {
     const sorted = [...offers];
 
     switch (activeSort) {

@@ -1,14 +1,16 @@
+import { memo } from 'react';
 import { AuthorizationStatus } from '../../const/const';
 import { Link } from 'react-router-dom';
+import { TUserData } from '../../const/types';
 
 type UserInfoProps = {
   authorizationStatus: AuthorizationStatus;
-  userEmail?: string;
-  favoriteCount?: number;
-}
+  userData: TUserData | null;
+};
 
-export default function UserInfo(props: UserInfoProps) {
-  const { authorizationStatus, userEmail, favoriteCount } = props;
+function UserInfo(props: UserInfoProps) {
+  const { authorizationStatus, userData } = props;
+
   return authorizationStatus === AuthorizationStatus.Auth ? (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -16,9 +18,9 @@ export default function UserInfo(props: UserInfoProps) {
           <Link className="header__nav-link header__nav-link--profile" to="/favorites">
             <div className="header__avatar-wrapper user__avatar-wrapper"></div>
             <span className="header__user-name user__name">
-              {userEmail}
+              {userData?.email}
             </span>
-            <span className="header__favorite-count">{favoriteCount}</span>
+            <span className="header__favorite-count">3</span>
           </Link>
         </li>
         <li className="header__nav-item">
@@ -40,3 +42,7 @@ export default function UserInfo(props: UserInfoProps) {
     </nav>
   );
 }
+
+const MemorizedUserInfo = memo(UserInfo);
+
+export default MemorizedUserInfo;

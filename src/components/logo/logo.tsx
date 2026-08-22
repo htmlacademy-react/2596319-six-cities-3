@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { AppRoute } from '../../const/const';
 
-export default function Logo() {
+function Logo() {
   return (
     <a className="header__logo-link header__logo-link--active" href={AppRoute.Main}>
       <img
@@ -13,3 +14,6 @@ export default function Logo() {
     </a>
   );
 }
+
+const MemoizedLogo = memo(Logo);
+export default MemoizedLogo;

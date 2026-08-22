@@ -1,4 +1,4 @@
-import { useState, FormEvent, Fragment } from 'react';
+import { useState, FormEvent, Fragment, memo } from 'react';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../const/const';
 import { AppDispatch, postCommentAction } from '../../store/api-actions';
 import { useDispatch } from 'react-redux';
@@ -9,7 +9,7 @@ type ReviewFormProps = {
   onCommentSubmit: (newReview: TReview) => void;
 };
 
-export default function ReviewForm({ offerId, onCommentSubmit }: ReviewFormProps) {
+function ReviewForm({ offerId, onCommentSubmit }: ReviewFormProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [currentReviewState, setReviewState] = useState({ rating: 0, comment: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -123,3 +123,6 @@ export default function ReviewForm({ offerId, onCommentSubmit }: ReviewFormProps
     </form>
   );
 }
+
+const memorizedReviewForm = memo(ReviewForm);
+export default memorizedReviewForm;

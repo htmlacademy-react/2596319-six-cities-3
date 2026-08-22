@@ -12,9 +12,9 @@ import { useSelector } from 'react-redux';
 import { State } from '../../store/api-actions';
 
 export default function App(): JSX.Element {
-  const offers = useSelector((state: State) => state.offers);
-  const isOffersLoading = useSelector((state: State) => state.isOffersLoading);
-  const authorizationStatus = useSelector((state: State) => state.authorizationStatus);
+  const offers = useSelector((state: State) => state.offers.offers);
+  const isOffersLoading = useSelector((state: State) => state.offers.isOffersLoading);
+  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
 
   if (isOffersLoading) {
     return <Spinner />;
