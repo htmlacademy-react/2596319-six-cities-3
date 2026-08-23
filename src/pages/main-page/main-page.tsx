@@ -5,11 +5,11 @@ import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const/const';
 import { TOffer } from '../../const/types';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from '../../store/store';
 import { setCity } from '../../store/slices/offers-slice';
-import { AppDispatch, State } from '../../store/api-actions';
+import { AppDispatch, fetchFavoritedOffersAction, State } from '../../store/api-actions';
 import MemoizedEmptyMainPage from '../../components/empty-main-page/empty-main-page';
 
 type RootState = ReturnType<typeof store.getState>;
@@ -25,8 +25,14 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
   const activeCity = useSelector((state: RootState) => state.offers.city);
   const allOffers = useSelector((state: RootState) => state.offers.offers);
   const offersInCity = allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase());
-  const favoritedOffers = allOffers.filter((offer) => offer.isFavorite);
+  const favoritedOffers = useSelector((state: State) => state.offers.favoritedOffers);
   const userData = useSelector((state: State) => state.user.userData);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritedOffersAction());
+    }
+  }, [authorizationStatus, dispatch]);
 
   const handleCityChange = useCallback((city: string) => {
     dispatch(setCity(city));

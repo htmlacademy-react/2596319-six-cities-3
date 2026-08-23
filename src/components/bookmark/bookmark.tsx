@@ -8,9 +8,10 @@ type BookmarkProps = {
   offerId: string;
   isFavorite: boolean;
   forOfferPage?: boolean;
+  onStatusChange?: (isFavorite: boolean) => void;
 };
 
-function Bookmark({ offerId, isFavorite, forOfferPage = false }: BookmarkProps) {
+function Bookmark({ offerId, isFavorite, forOfferPage = false, onStatusChange }: BookmarkProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
@@ -27,7 +28,13 @@ function Bookmark({ offerId, isFavorite, forOfferPage = false }: BookmarkProps) 
       return;
     }
 
-    dispatch(changeFavoritedStatusAction({ offerId, status: isFavorite ? 0 : 1 }));
+    dispatch(changeFavoritedStatusAction({ offerId, status: isFavorite ? 0 : 1 }))
+      .unwrap()
+      .then((updatedOffer) => {
+        if (onStatusChange) {
+          onStatusChange(updatedOffer.isFavorite);
+        }
+      });
   };
 
   return (

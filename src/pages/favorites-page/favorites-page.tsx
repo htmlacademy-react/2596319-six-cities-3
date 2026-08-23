@@ -1,19 +1,15 @@
 import Logo from '../../components/logo/logo';
 import UserInfo from '../../components/user-info/user-info';
 import { AuthorizationStatus } from '../../const/const';
-import { TOffer, TUserData } from '../../const/types';
+import { TUserData } from '../../const/types';
 import FavoritedHotels from '../../components/favorited-hotels/favorited-hotels';
 import { useSelector } from 'react-redux';
 import { State } from '../../store/api-actions';
 import { Link } from 'react-router-dom';
 
-type TFavoritePageProps = {
-  offers: TOffer[];
-}
-
-export default function FavoritesPage({offers}: TFavoritePageProps) {
+export default function FavoritesPage() {
   const userData: TUserData | null = useSelector((state: State) => state.user.userData);
-  const favoritedOffers = offers.filter((offer) => offer.isFavorite);
+  const favoritedOffers = useSelector((state: State) => state.offers.favoritedOffers);
 
   if (favoritedOffers.length === 0) {
     return (
@@ -73,7 +69,7 @@ export default function FavoritesPage({offers}: TFavoritePageProps) {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <FavoritedHotels offers={offers}/>
+              <FavoritedHotels offers={favoritedOffers}/>
             </ul>
           </section>
         </div>

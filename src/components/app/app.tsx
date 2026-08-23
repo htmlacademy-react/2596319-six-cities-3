@@ -31,8 +31,8 @@ export default function App(): JSX.Element {
         />
         <Route path={AppRoute.Login} element={<PublicRoute authorizationStatus={authorizationStatus}><LoginPage /></PublicRoute>} />
         <Route path={AppRoute.Favorites} element={
-          <PrivateRoute authorizationStatus={authorizationStatus}>
-            <FavoritesPage offers={offers} />
+          <PrivateRoute >
+            <FavoritesPage />
           </PrivateRoute>
         }
         />

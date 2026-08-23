@@ -12,6 +12,7 @@ import HotelsMap from '../../components/hotels-map/hotels-map';
 import { useEffect, useState } from 'react';
 import {
   fetchCommentsAction,
+  fetchFavoritedOffersAction,
   fetchOffersNearbyAction,
   fetchSingleOfferAction,
   State
@@ -33,6 +34,12 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   const [reviews, setReviews] = useState<TReview[]>([]);
   const [nearOffers, setNearOffers] = useState<TOffer[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritedOffersAction());
+    }
+  }, [authorizationStatus, dispatch]);
 
   useEffect(() => {
     if (!id) {
@@ -69,7 +76,8 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   }, [id, dispatch]);
 
   const userData = useSelector((state: State) => state.user.userData);
-  const favoritedOffersCount = useSelector((state: State) => state.offers.offers).filter((offer) => offer.isFavorite).length;
+  const favoritedOffers = useSelector((state: State) => state.offers.favoritedOffers);
+  const favoritedOffersCount = favoritedOffers.length;
 
   function handleOfferCardHover(offer?: TOffer) {
     setActiveOffer(offer || null);
@@ -121,7 +129,14 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
               )}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{currentOffer.title}</h1>
-                <Bookmark offerId={currentOffer.id} isFavorite={currentOffer.isFavorite} forOfferPage />
+                <Bookmark
+                  offerId={currentOffer.id}
+                  isFavorite={currentOffer.isFavorite}
+                  forOfferPage
+                  onStatusChange={(isFavorite) => {
+                    setCurrentOffer((prev) => (prev ? { ...prev, isFavorite } : null));
+                  }}
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
