@@ -124,5 +124,5 @@ function ReviewForm({ offerId, onCommentSubmit }: ReviewFormProps) {
   );
 }
 
-const memorizedReviewForm = memo(ReviewForm);
-export default memorizedReviewForm;
+const MemorizedReviewForm = memo(ReviewForm);
+export default MemorizedReviewForm;

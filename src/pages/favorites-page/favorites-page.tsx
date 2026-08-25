@@ -3,13 +3,20 @@ import UserInfo from '../../components/user-info/user-info';
 import { AuthorizationStatus } from '../../const/const';
 import { TUserData } from '../../const/types';
 import FavoritedHotels from '../../components/favorited-hotels/favorited-hotels';
-import { useSelector } from 'react-redux';
-import { State } from '../../store/api-actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, fetchFavoritedOffersAction, State } from '../../store/api-actions';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function FavoritesPage() {
+  const dispatch = useDispatch<AppDispatch>();
   const userData: TUserData | null = useSelector((state: State) => state.user.userData);
+
   const favoritedOffers = useSelector((state: State) => state.offers.favoritedOffers);
+
+  useEffect(() => {
+    dispatch(fetchFavoritedOffersAction());
+  }, [dispatch]);
 
   if (favoritedOffers.length === 0) {
     return (
