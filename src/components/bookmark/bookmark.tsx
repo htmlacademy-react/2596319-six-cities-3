@@ -1,29 +1,57 @@
-import { memo } from 'react';
+import { memo, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, changeFavoritedStatusAction, State } from '../../store/api-actions';
+import { AuthorizationStatus, AppRoute } from '../../const/const';
 
 type BookmarkProps = {
-  isChecked: boolean;
-}
+  offerId: string;
+  isFavorite: boolean;
+  forOfferPage?: boolean;
+  onStatusChange?: (isFavorite: boolean) => void;
+};
 
-function Bookmark({isChecked}: BookmarkProps) {
-  return isChecked ?
+function Bookmark({ offerId, isFavorite, forOfferPage = false, onStatusChange }: BookmarkProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
+
+  const prefix = forOfferPage ? 'offer' : 'place-card';
+  const iconSize = forOfferPage ? { width: 31, height: 33 } : { width: 18, height: 19 };
+  const activeClass = isFavorite ? `${prefix}__bookmark-button--active` : '';
+
+  const handleBookmarkClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
+
+    dispatch(changeFavoritedStatusAction({ offerId, status: isFavorite ? 0 : 1 }))
+      .unwrap()
+      .then((updatedOffer) => {
+        if (onStatusChange) {
+          onStatusChange(updatedOffer.isFavorite);
+        }
+      });
+  };
+
+  return (
     <button
-      className="place-card__bookmark-button place-card__bookmark-button--active button"
+      className={`${prefix}__bookmark-button ${activeClass} button`}
       type="button"
+      onClick={handleBookmarkClick}
     >
-      <svg className="place-card__bookmark-icon" width={18} height={19}>
+      <svg className={`${prefix}__bookmark-icon`} {...iconSize}>
         <use xlinkHref="#icon-bookmark" />
       </svg>
-      <span className="visually-hidden">In bookmarks</span>
+      <span className="visually-hidden">
+        {isFavorite ? 'In bookmarks' : 'To bookmarks'}
+      </span>
     </button>
-    :
-    <button className="place-card__bookmark-button button" type="button">
-      <svg className="place-card__bookmark-icon" width={18} height={19}>
-        <use xlinkHref="#icon-bookmark" />
-      </svg>
-      <span className="visually-hidden">To bookmarks</span>
-    </button>;
+  );
 }
 
-
-const memorizedBookmark = memo(Bookmark);
-export default memorizedBookmark;
+export const MemoizedBookmark = memo(Bookmark);
+export default MemoizedBookmark;

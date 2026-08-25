@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_CITY } from '../../const/const';
 import { TOffer } from '../../const/types';
-import { fetchOffersAction } from '../api-actions';
+import { changeFavoritedStatusAction, fetchFavoritedOffersAction, fetchOffersAction } from '../api-actions';
 
 type OffersState = {
   city: string;
   offers: TOffer[];
   isOffersLoading: boolean;
+  favoritedOffers: TOffer[];
 };
 
 const initialState: OffersState = {
   city: DEFAULT_CITY,
   offers: [],
   isOffersLoading: false,
+  favoritedOffers: []
 };
 
 export const offersSlice = createSlice({
@@ -25,6 +27,22 @@ export const offersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(changeFavoritedStatusAction.fulfilled, (state, action) => {
+        const updatedOffer = action.payload;
+
+        const index = state.offers.findIndex((offer) => offer.id === updatedOffer.id);
+        if (index !== -1) {
+          state.offers[index] = updatedOffer;
+        }
+
+        if (updatedOffer.isFavorite) {
+          state.favoritedOffers.push(updatedOffer);
+        } else {
+          state.favoritedOffers = state.favoritedOffers.filter(
+            (offer) => offer.id !== updatedOffer.id
+          );
+        }
+      })
       .addCase(fetchOffersAction.pending, (state) => {
         state.isOffersLoading = true;
       })
@@ -34,6 +52,9 @@ export const offersSlice = createSlice({
       })
       .addCase(fetchOffersAction.rejected, (state) => {
         state.isOffersLoading = false;
+      })
+      .addCase(fetchFavoritedOffersAction.fulfilled, (state, action) => {
+        state.favoritedOffers = action.payload;
       });
   },
 });

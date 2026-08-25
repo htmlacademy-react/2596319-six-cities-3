@@ -42,5 +42,5 @@ function Review({review}: ReviewProps) {
   );
 }
 
-const memorizedReview = memo(Review);
-export default memorizedReview;
+const MemorizedReview = memo(Review);
+export default MemorizedReview;

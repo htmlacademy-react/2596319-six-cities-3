@@ -5,11 +5,12 @@ import Hotels from '../../components/hotels/hotels';
 import HotelsMap from '../../components/hotels-map/hotels-map';
 import { AuthorizationStatus } from '../../const/const';
 import { TOffer } from '../../const/types';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { store } from '../../store/store';
 import { setCity } from '../../store/slices/offers-slice';
-import { State } from '../../store/api-actions';
+import { AppDispatch, fetchFavoritedOffersAction, State } from '../../store/api-actions';
+import MemoizedEmptyMainPage from '../../components/empty-main-page/empty-main-page';
 
 type RootState = ReturnType<typeof store.getState>;
 
@@ -18,16 +19,20 @@ type MainPageProps = {
 };
 
 export default function MainPage({ authorizationStatus }: MainPageProps): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
 
   const activeCity = useSelector((state: RootState) => state.offers.city);
   const allOffers = useSelector((state: RootState) => state.offers.offers);
-  const offersInCity = useMemo(
-    () => allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase()),
-    [allOffers, activeCity]
-  );
+  const offersInCity = allOffers.filter((offer) => offer.city.name.toLowerCase() === activeCity.toLowerCase());
+  const favoritedOffers = useSelector((state: State) => state.offers.favoritedOffers);
   const userData = useSelector((state: State) => state.user.userData);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritedOffersAction());
+    }
+  }, [authorizationStatus, dispatch]);
 
   const handleCityChange = useCallback((city: string) => {
     dispatch(setCity(city));
@@ -37,6 +42,18 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
     setActiveOffer(offer || null);
   }, []);
 
+  if (offersInCity.length === 0) {
+    return (
+      <MemoizedEmptyMainPage
+        authorizationStatus={authorizationStatus}
+        userData={userData}
+        favoritesCount={favoritedOffers.length}
+        activeCity={activeCity}
+        onCityClick={handleCityChange}
+      />
+    );
+  }
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -45,7 +62,7 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus} userData={userData}/>
+            <UserInfo authorizationStatus={authorizationStatus} userData={userData} favoritesCount={favoritedOffers.length}/>
           </div>
         </div>
       </header>
@@ -53,7 +70,7 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
         <CitiesTabs activeCity={activeCity} onCityClick={handleCityChange}/>
         <div className="cities">
           <div className="cities__places-container container">
-            <Hotels offers={offersInCity} handleHover={handleHover} activeCity={activeCity}/>
+            <Hotels offers={offersInCity} handleHover={handleHover} activeCity={activeCity} />
             <div className="cities__right-section">
               <HotelsMap offers={offersInCity} selectedOffer={activeOffer}/>
             </div>

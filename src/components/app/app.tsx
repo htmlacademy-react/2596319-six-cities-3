@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 import { State } from '../../store/api-actions';
 
 export default function App(): JSX.Element {
-  const offers = useSelector((state: State) => state.offers.offers);
   const isOffersLoading = useSelector((state: State) => state.offers.isOffersLoading);
   const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
 
@@ -32,7 +31,7 @@ export default function App(): JSX.Element {
         <Route path={AppRoute.Login} element={<PublicRoute authorizationStatus={authorizationStatus}><LoginPage /></PublicRoute>} />
         <Route path={AppRoute.Favorites} element={
           <PrivateRoute >
-            <FavoritesPage offers={offers} />
+            <FavoritesPage />
           </PrivateRoute>
         }
         />
