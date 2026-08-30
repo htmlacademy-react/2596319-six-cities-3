@@ -23,5 +23,5 @@ function NearHotels({ offers, handleHover }: NearHotelsProps) {
   );
 }
 
-const memorizedNearHotels = memo(NearHotels);
-export default memorizedNearHotels;
+const MemorizedNearHotels = memo(NearHotels);
+export default MemorizedNearHotels;

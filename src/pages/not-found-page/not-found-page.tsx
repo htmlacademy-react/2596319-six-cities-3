@@ -8,7 +8,7 @@ export default function NotFoundPage() {
         textAlign: 'center',
         fontSize: '76px'
       }}
-      >4🫠4
+      >404
       </h2>
       <Link style={{
         display: 'block',
