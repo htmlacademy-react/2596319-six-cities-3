@@ -28,11 +28,11 @@ export const userSlice = createSlice({
     builder
       .addCase(checkAuthorizationStatusAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
-        state.userData = action.payload;
+        state.userData = action.payload ?? null;
       })
       .addCase(loginAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
-        state.userData = action.payload;
+        state.userData = action.payload ?? null;
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
@@ -48,3 +48,5 @@ export const userSlice = createSlice({
       });
   },
 });
+
+export const {setAuthorizationStatus, setUserData} = userSlice.actions;
