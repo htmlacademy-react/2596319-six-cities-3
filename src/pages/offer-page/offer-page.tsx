@@ -29,7 +29,6 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
 
-  const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
   const [currentOffer, setCurrentOffer] = useState<TOfferExpanded | null>(null);
   const [reviews, setReviews] = useState<TReview[]>([]);
   const [nearOffers, setNearOffers] = useState<TOffer[]>([]);
@@ -51,21 +50,36 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
     setIsLoading(true);
 
     Promise.all([
-      dispatch(fetchSingleOfferAction(id)).unwrap(),
-      dispatch(fetchCommentsAction(id)).unwrap(),
-      dispatch(fetchOffersNearbyAction(id)).unwrap(),
+      dispatch(fetchSingleOfferAction(id)),
+      dispatch(fetchCommentsAction(id)),
+      dispatch(fetchOffersNearbyAction(id)),
     ])
-      .then(([offerData, commentsData, nearbyData]) => {
-        if (isMounted) {
-          setCurrentOffer(offerData);
-          setReviews(commentsData);
-          setNearOffers(nearbyData);
-          setIsLoading(false);
+      .then(([offerRes, commentsRes, nearbyRes]) => {
+        if (!isMounted) {
+          return;
+        }
+
+        if (fetchSingleOfferAction.fulfilled.match(offerRes)) {
+          setCurrentOffer(offerRes.payload);
+
+          if (fetchCommentsAction.fulfilled.match(commentsRes)) {
+            setReviews(commentsRes.payload);
+          }
+
+          if (fetchOffersNearbyAction.fulfilled.match(nearbyRes)) {
+            setNearOffers(nearbyRes.payload);
+          }
+        } else {
+          setCurrentOffer(null);
         }
       })
       .catch(() => {
         if (isMounted) {
           setCurrentOffer(null);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
           setIsLoading(false);
         }
       });
@@ -79,10 +93,6 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   const favoritedOffers = useSelector((state: State) => state.offers.favoritedOffers);
   const favoritedOffersCount = favoritedOffers.length;
 
-  function handleOfferCardHover(offer?: TOffer) {
-    setActiveOffer(offer || null);
-  }
-
   if (isLoading) {
     return <Spinner />;
   }
@@ -92,10 +102,12 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   }
 
   const handleCommentSubmit = (newReview: TReview) => {
-    setReviews((prevReviews) => [...prevReviews, newReview]);
+    setReviews((prevReviews) => [newReview, ...prevReviews]);
   };
 
-  const rating = `${currentOffer.rating * 20}%`;
+  const rating = `${Math.round(currentOffer.rating) * 20}%`;
+  const nearOffersToRender = nearOffers.slice(0, 3);
+  const mapOffers: TOffer[] = [...nearOffersToRender, currentOffer as unknown as TOffer];
 
   return (
     <div className="page">
@@ -113,7 +125,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {currentOffer.images?.map((image) => (
+              {currentOffer.images?.slice(0, 6).map((image) => (
                 <div className="offer__image-wrapper" key={image}>
                   <img className="offer__image" src={image} alt={currentOffer.title} />
                 </div>
@@ -171,12 +183,16 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div
+                    className={`offer__avatar-wrapper ${
+                      currentOffer.host?.isPro ? 'offer__avatar-wrapper--pro' : ''
+                    } user__avatar-wrapper`}
+                  >
                     <img
                       className="offer__avatar user__avatar"
                       src={currentOffer.host?.avatarUrl}
-                      width={74}
-                      height={74}
+                      width="74"
+                      height="74"
                       alt="Host avatar"
                     />
                   </div>
@@ -196,15 +212,15 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
             </div>
           </div>
           <HotelsMap
-            offers={nearOffers}
-            selectedOffer={activeOffer}
+            offers={mapOffers}
+            selectedOffer={currentOffer as unknown as TOffer}
             className="offer__map"
           />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearHotels offers={nearOffers} handleHover={handleOfferCardHover} />
+            <NearHotels offers={nearOffersToRender} handleHover={() => {}} />
           </section>
         </div>
       </main>

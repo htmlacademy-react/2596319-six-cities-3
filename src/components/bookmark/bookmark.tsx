@@ -22,6 +22,7 @@ function Bookmark({ offerId, isFavorite, forOfferPage = false, onStatusChange }:
 
   const handleBookmarkClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    evt.stopPropagation();
 
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);

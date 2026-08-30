@@ -11,6 +11,7 @@ import { store } from '../../store/store';
 import { setCity } from '../../store/slices/offers-slice';
 import { AppDispatch, fetchFavoritedOffersAction, State } from '../../store/api-actions';
 import MemoizedEmptyMainPage from '../../components/empty-main-page/empty-main-page';
+import { Spinner } from '../../components/spinner/spinner';
 
 type RootState = ReturnType<typeof store.getState>;
 
@@ -21,6 +22,8 @@ type MainPageProps = {
 export default function MainPage({ authorizationStatus }: MainPageProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const [activeOffer, setActiveOffer] = useState<TOffer | null>(null);
+
+  const isOffersLoading = useSelector((state: State) => state.offers.isOffersLoading);
 
   const activeCity = useSelector((state: RootState) => state.offers.city);
   const allOffers = useSelector((state: RootState) => state.offers.offers);
@@ -41,6 +44,10 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
   const handleHover = useCallback((offer?: TOffer) => {
     setActiveOffer(offer || null);
   }, []);
+
+  if (isOffersLoading) {
+    return <Spinner />;
+  }
 
   if (offersInCity.length === 0) {
     return (

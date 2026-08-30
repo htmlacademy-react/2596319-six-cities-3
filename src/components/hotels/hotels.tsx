@@ -38,10 +38,12 @@ export default function Hotels({ offers, handleHover, activeCity }: HotelsProps)
     />
   ));
 
+  const placesFoundText = `${hotelCards.length} ${hotelCards.length === 1 ? 'place' : 'places'} to stay in ${activeCity}`;
+
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">{hotelCards.length} places to stay in {activeCity}</b>
+      <b className="places__found">{placesFoundText}</b>
       <HotelsSort activeSort={activeSort} onSortChange={setActiveSort} />
       <div className="cities__places-list places__list tabs__content">
         {hotelCards}

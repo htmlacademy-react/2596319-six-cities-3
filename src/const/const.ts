@@ -53,3 +53,4 @@ export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', '
 
 export const API_URL = 'https://15.design.htmlacademy.pro/six-cities';
 export const AUTH_TOKEN_NAME = 'six-cities-token';
+export const MAX_REVIEWS_COUNT = 10;

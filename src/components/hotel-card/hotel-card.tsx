@@ -15,7 +15,7 @@ function HotelCard({card,
   imageWrapperClassName = 'cities__image-wrapper',
   handleHover}: HotelCardProps): JSX.Element {
 
-  const starsCount = `${card.rating * 20}%`;
+  const starsCount = `${Math.round(card.rating) * 20}%`;
   const offerPath = `/offer/${card.id}`;
 
   const handleMouseOver = () => handleHover?.(card);
