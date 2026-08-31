@@ -1,50 +1,55 @@
 import { TOffer } from '../../const/types';
 import Bookmark from '../bookmark/bookmark';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type TFavoritedHotelCard = {
   card: TOffer;
-}
+};
 
-export default function FavoritedHotelCard({card}: TFavoritedHotelCard) {
+export default function FavoritedHotelCard({ card }: TFavoritedHotelCard) {
+  const navigate = useNavigate();
   const rating = `${card.rating * 20}%`;
   const offerPath = `/offer/${card.id}`;
 
+  function handleCardClick() {
+    navigate(offerPath);
+  }
+
   return (
-    <Link to={offerPath}>
-      <article className="favorites__card place-card">
-        {card.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-        <div className="favorites__image-wrapper place-card__image-wrapper">
-          <img
-            className="place-card__image"
-            src={card.previewImage}
-            width={150}
-            height={110}
-            alt="Place image"
-          />
+    <article className="favorites__card place-card" onClick={handleCardClick}>
+      {card.isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
         </div>
-        <div className="favorites__card-info place-card__info">
-          <div className="place-card__price-wrapper">
-            <div className="place-card__price">
-              <b className="place-card__price-value">€{card.price}</b>
-              <span className="place-card__price-text">
-                /&nbsp;night
-              </span>
-            </div>
-            <Bookmark offerId={card.id} isFavorite={card.isFavorite}/>
+      )}
+      <div className="favorites__image-wrapper place-card__image-wrapper">
+        <img
+          className="place-card__image"
+          src={card.previewImage}
+          width={150}
+          height={110}
+          alt="Place image"
+        />
+      </div>
+      <div className="favorites__card-info place-card__info">
+        <div className="place-card__price-wrapper">
+          <div className="place-card__price">
+            <b className="place-card__price-value">€{card.price}</b>
+            <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <div className="place-card__rating rating">
-            <div className="place-card__stars rating__stars">
-              <span style={{ width: rating }} />
-              <span className="visually-hidden">Rating</span>
-            </div>
+          <div onClick={(evt) => evt.stopPropagation()}>
+            <Bookmark offerId={card.id} isFavorite={card.isFavorite} />
           </div>
-          <h2 className="place-card__name">
-            {card.title}
-          </h2>
-          <p className="place-card__type">{card.type}</p>
         </div>
-      </article>
-    </Link>
+        <div className="place-card__rating rating">
+          <div className="place-card__stars rating__stars">
+            <span style={{ width: rating }} />
+            <span className="visually-hidden">Rating</span>
+          </div>
+        </div>
+        <h2 className="place-card__name">{card.title}</h2>
+        <p className="place-card__type">{card.type}</p>
+      </div>
+    </article>
   );
 }

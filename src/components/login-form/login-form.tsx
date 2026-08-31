@@ -37,9 +37,10 @@ export default function LoginForm() {
     evt.preventDefault();
     if (isValidLogin()) {
       dispatch(loginAction(currentLoginFormState))
-        .unwrap()
-        .then(() => {
-          navigate(AppRoute.Main);
+        .then((response) => {
+          if (loginAction.fulfilled.match(response)) {
+            navigate(AppRoute.Main);
+          }
         });
     }
   }
@@ -54,6 +55,7 @@ export default function LoginForm() {
             className="login__input form__input"
             type="email"
             name="email"
+            data-testid="email"
             placeholder="Email"
             required
             value={currentLoginFormState.email}
@@ -66,6 +68,7 @@ export default function LoginForm() {
             className="login__input form__input"
             type="password"
             name="password"
+            data-testid="password"
             placeholder="Password"
             required
             value={currentLoginFormState.password}

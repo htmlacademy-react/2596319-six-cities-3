@@ -7,17 +7,18 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import { AppRoute } from '../../const/const';
 import { PrivateRoute } from '../private-route/private-route';
 import { PublicRoute } from '../public-route/public-route';
-import { Spinner } from '../spinner/spinner';
-import { useSelector } from 'react-redux';
-import { State } from '../../store/api-actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, checkAuthorizationStatusAction, State } from '../../store/api-actions';
+import { useEffect } from 'react';
 
 export default function App(): JSX.Element {
-  const isOffersLoading = useSelector((state: State) => state.offers.isOffersLoading);
-  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
+  const dispatch = useDispatch<AppDispatch>();
 
-  if (isOffersLoading) {
-    return <Spinner />;
-  }
+  useEffect(() => {
+    dispatch(checkAuthorizationStatusAction());
+  }, [dispatch]);
+
+  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
 
   return (
     <BrowserRouter>
@@ -28,7 +29,7 @@ export default function App(): JSX.Element {
           />
         }
         />
-        <Route path={AppRoute.Login} element={<PublicRoute authorizationStatus={authorizationStatus}><LoginPage /></PublicRoute>} />
+        <Route path={AppRoute.Login} element={<PublicRoute><LoginPage /></PublicRoute>} />
         <Route path={AppRoute.Favorites} element={
           <PrivateRoute >
             <FavoritesPage />
