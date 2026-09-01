@@ -10,35 +10,32 @@ import { PublicRoute } from '../public-route/public-route';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, checkAuthorizationStatusAction, State } from '../../store/api-actions';
 import { useEffect } from 'react';
+import ErrorComponent from '../error-component/error-component';
 
 export default function App(): JSX.Element {
+  const isServerUnavailable = useSelector((state: State) => state.data?.isServerError);
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(checkAuthorizationStatusAction());
   }, [dispatch]);
 
-  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
+  const authorizationStatus = useSelector((state: State) => state.user?.authorizationStatus);
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path={AppRoute.Main} element={
-          <MainPage
-            authorizationStatus={authorizationStatus}
-          />
-        }
-        />
-        <Route path={AppRoute.Login} element={<PublicRoute><LoginPage /></PublicRoute>} />
-        <Route path={AppRoute.Favorites} element={
-          <PrivateRoute >
-            <FavoritesPage />
-          </PrivateRoute>
-        }
-        />
-        <Route path={AppRoute.Offer} element={<OfferPage authorizationStatus={authorizationStatus}/>} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      {isServerUnavailable ? (
+        <ErrorComponent />
+      ) : (
+        <Routes>
+          <Route path={AppRoute.Main} element={<MainPage authorizationStatus={authorizationStatus} />} />
+          <Route path={AppRoute.Login} element={<PublicRoute><LoginPage /></PublicRoute>} />
+          <Route path={AppRoute.Favorites} element={<PrivateRoute><FavoritesPage /></PrivateRoute>} />
+          <Route path={AppRoute.Offer} element={<OfferPage authorizationStatus={authorizationStatus}/>} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      )}
     </BrowserRouter>
   );
 }

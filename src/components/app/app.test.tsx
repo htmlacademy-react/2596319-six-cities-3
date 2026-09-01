@@ -110,4 +110,21 @@ describe('Component: App', () => {
 
     expect(screen.getByText(/404/i)).toBeInTheDocument();
   });
+
+  it('should show ErrorComponent when isServerError is true', () => {
+    const store = mockStore({
+      ...defaultStoreState,
+      data: { isServerError: true },
+    });
+
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    expect(
+      screen.getByText(/Сервер временно недоступен. Вернитесь сюда позже/i)
+    ).toBeInTheDocument();
+  });
 });

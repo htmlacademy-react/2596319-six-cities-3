@@ -48,6 +48,8 @@ function ReviewForm({ offerId, onCommentSubmit }: ReviewFormProps) {
       })
       .catch(() => {
         setIsSubmitting(false);
+        // eslint-disable-next-line no-alert
+        alert('Произошла ошибка. Попробуйте снова');
       })
       .finally(() => {
         setIsSubmitting(false);

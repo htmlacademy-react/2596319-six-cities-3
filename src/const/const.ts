@@ -12,11 +12,12 @@ export enum AuthorizationStatus {
 }
 
 export enum Actions {
-  CityChange = 'CITY_CHANGE',
-  FillOffers = 'FILL_OFFERS',
-  SetOffersLoadingStatus = 'SET_OFFERS_LOADING_STATUS',
-  ChangeAuthorizationStatus = 'CHANGE_AUTHORIZATION_STATUS',
-  FillUserData = 'FILL_USER_DATA'
+  CityChange = 'offers/cityChange',
+  FillOffers = 'offers/fillOffers',
+  SetOffersLoadingStatus = 'offers/setLoadingStatus',
+  ChangeAuthorizationStatus = 'user/changeAuthStatus',
+  FillUserData = 'user/fillData',
+  setServerError = 'data/setServerError'
 }
 
 export enum APIActions {

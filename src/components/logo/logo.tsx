@@ -1,9 +1,13 @@
 import { memo } from 'react';
 import { AppRoute } from '../../const/const';
 
-function Logo() {
+type LogoProps = {
+  isActive?: boolean;
+}
+
+function Logo({isActive = false}: LogoProps) {
   return (
-    <a className="header__logo-link header__logo-link--active" href={AppRoute.Main}>
+    <a className={`header__logo-link ${isActive && 'header__logo-link--active'}`} href={AppRoute.Main}>
       <img
         className="header__logo"
         src="img/logo.svg"
