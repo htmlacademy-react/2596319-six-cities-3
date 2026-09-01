@@ -8,6 +8,7 @@ const storeRef: { current?: typeof store } = {};
 
 const api = createApi(() => {
   storeRef.current?.dispatch(setServerError(true));
+  storeRef.current?.dispatch(setServerError(false));
 });
 
 export const store = configureStore({
