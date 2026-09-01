@@ -1,6 +1,8 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { API_URL } from './const/const';
 import { getToken } from './token';
+import { store } from './store/store';
+import { setServerError } from './store/slices/data-slice';
 
 export function createApi(): AxiosInstance {
   const api = axios.create({
@@ -18,6 +20,17 @@ export function createApi(): AxiosInstance {
 
       return config;
     },
+  );
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      if (error.response && error.response.status >= 500) {
+        store.dispatch(setServerError(true));
+      }
+
+      return Promise.reject(error);
+    }
   );
 
   return api;

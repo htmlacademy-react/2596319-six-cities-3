@@ -22,7 +22,7 @@ function EmptyMainPage(
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <MemoizedLogo />
+              <MemoizedLogo isActive/>
             </div>
             <MemorizedUserInfo authorizationStatus={authorizationStatus} userData={userData} favoritesCount={favoritesCount}/>
           </div>

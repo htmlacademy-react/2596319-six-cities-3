@@ -67,7 +67,7 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Logo />
+              <Logo isActive />
             </div>
             <UserInfo authorizationStatus={authorizationStatus} userData={userData} favoritesCount={favoritedOffers.length}/>
           </div>
