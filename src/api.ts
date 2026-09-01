@@ -1,10 +1,8 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { API_URL } from './const/const';
 import { getToken } from './token';
-import { store } from './store/store';
-import { setServerError } from './store/slices/data-slice';
 
-export function createApi(): AxiosInstance {
+export function createApi(onServerError?: () => void): AxiosInstance {
   const api = axios.create({
     baseURL: API_URL,
     timeout: 5000,
@@ -26,7 +24,7 @@ export function createApi(): AxiosInstance {
     (response) => response,
     (error: AxiosError) => {
       if (error.response && error.response.status >= 500) {
-        store.dispatch(setServerError(true));
+        onServerError?.();
       }
 
       return Promise.reject(error);

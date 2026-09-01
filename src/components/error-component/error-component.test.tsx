@@ -13,10 +13,10 @@ describe('Component: ErrorComponent', () => {
 
     const heading = screen.getByRole('heading', {
       level: 2,
-      name: /Сервер временно недоступен/i,
+      name: /Сервер временно недоступен. Вернитесь сюда позже/i,
     });
     const link = screen.getByRole('link', {
-      name: /Нажмите сюда для возвращения на главную страницу/i,
+      name: /Нажмите сюда для перехода на главную страницу/i,
     });
 
     expect(heading).toBeInTheDocument();
