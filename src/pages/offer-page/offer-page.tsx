@@ -1,25 +1,18 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Bookmark from '../../components/bookmark/bookmark';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserInfo from '../../components/user-info/user-info';
-import { AuthorizationStatus } from '../../const/const';
-import { TOffer, TOfferExpanded, TReview } from '../../const/types';
+import { AuthorizationStatus, ReviewConfig } from '../../const/const';
+import { TOffer } from '../../const/types';
 import NotFoundPage from '../not-found-page/not-found-page';
 import NearHotels from '../../components/near-hotels/near-hotels';
 import ReviewsContainer from '../../components/reviews-container/reviews-container';
 import HotelsMap from '../../components/hotels-map/hotels-map';
-import { useEffect, useState } from 'react';
-import {
-  fetchCommentsAction,
-  fetchFavoritedOffersAction,
-  fetchOffersNearbyAction,
-  fetchSingleOfferAction,
-  State
-} from '../../store/api-actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../store/api-actions';
 import { Spinner } from '../../components/spinner/spinner';
+import { AppDispatch, State, fetchCommentsAction, fetchOffersNearbyAction, fetchSingleOfferAction } from '../../store/api-actions';
 
 type OfferPageProps = {
   authorizationStatus: AuthorizationStatus;
@@ -29,69 +22,22 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
 
-  const [currentOffer, setCurrentOffer] = useState<TOfferExpanded | null>(null);
-  const [reviews, setReviews] = useState<TReview[]>([]);
-  const [nearOffers, setNearOffers] = useState<TOffer[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
-      dispatch(fetchFavoritedOffersAction());
-    }
-  }, [authorizationStatus, dispatch]);
-
-  useEffect(() => {
-    if (!id) {
-      setIsLoading(false);
-      return;
-    }
-
-    let isMounted = true;
-    setIsLoading(true);
-
-    Promise.all([
-      dispatch(fetchSingleOfferAction(id)),
-      dispatch(fetchCommentsAction(id)),
-      dispatch(fetchOffersNearbyAction(id)),
-    ])
-      .then(([offerRes, commentsRes, nearbyRes]) => {
-        if (!isMounted) {
-          return;
-        }
-
-        if (fetchSingleOfferAction.fulfilled.match(offerRes)) {
-          setCurrentOffer(offerRes.payload);
-
-          if (fetchCommentsAction.fulfilled.match(commentsRes)) {
-            setReviews(commentsRes.payload);
-          }
-
-          if (fetchOffersNearbyAction.fulfilled.match(nearbyRes)) {
-            setNearOffers(nearbyRes.payload);
-          }
-        } else {
-          setCurrentOffer(null);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setCurrentOffer(null);
-        }
-      })
-      .finally(() => {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [id, dispatch]);
+  const currentOffer = useSelector((state: State) => state.offers.currentOffer);
+  const reviews = useSelector((state: State) => state.offers.reviews);
+  const nearOffers = useSelector((state: State) => state.offers.nearOffers);
+  const isLoading = useSelector((state: State) => state.offers.isOfferLoading);
 
   const userData = useSelector((state: State) => state.user.userData);
   const favoritedOffers = useSelector((state: State) => state.offers.favoritedOffers);
   const favoritedOffersCount = favoritedOffers.length;
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchSingleOfferAction(id));
+      dispatch(fetchCommentsAction(id));
+      dispatch(fetchOffersNearbyAction(id));
+    }
+  }, [id, dispatch]);
 
   if (isLoading) {
     return <Spinner />;
@@ -101,11 +47,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
     return <NotFoundPage />;
   }
 
-  const handleCommentSubmit = (newReview: TReview) => {
-    setReviews((prevReviews) => [newReview, ...prevReviews]);
-  };
-
-  const rating = `${Math.round(currentOffer.rating) * 20}%`;
+  const rating = `${Math.round(currentOffer.rating) * (ReviewConfig.MaxStarsWidthPercentage / ReviewConfig.MaxStarsCount)}%`;
   const nearOffersToRender = nearOffers.slice(0, 3);
   const mapOffers: TOffer[] = [...nearOffersToRender, currentOffer as unknown as TOffer];
 
@@ -117,7 +59,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
             <div className="header__left">
               <Logo />
             </div>
-            <UserInfo authorizationStatus={authorizationStatus} userData={userData} favoritesCount={favoritedOffersCount}/>
+            <UserInfo authorizationStatus={authorizationStatus} userData={userData} favoritesCount={favoritedOffersCount} />
           </div>
         </div>
       </header>
@@ -145,9 +87,6 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
                   offerId={currentOffer.id}
                   isFavorite={currentOffer.isFavorite}
                   forOfferPage
-                  onStatusChange={(isFavorite) => {
-                    setCurrentOffer((prev) => (prev ? { ...prev, isFavorite } : null));
-                  }}
                 />
               </div>
               <div className="offer__rating rating">
@@ -206,7 +145,12 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
               <section className="offer__reviews reviews">
                 <ReviewsContainer reviews={reviews} />
                 {authorizationStatus === AuthorizationStatus.Auth && (
-                  <ReviewForm offerId={currentOffer.id} onCommentSubmit={handleCommentSubmit} />
+                  <ReviewForm
+                    offerId={currentOffer.id}
+                    onCommentSubmit={() => {
+                      dispatch(fetchCommentsAction(currentOffer.id));
+                    }}
+                  />
                 )}
               </section>
             </div>
@@ -220,7 +164,7 @@ export default function OfferPage({ authorizationStatus }: OfferPageProps) {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearHotels offers={nearOffersToRender} handleHover={() => {}} />
+            <NearHotels offers={nearOffersToRender} onHover={() => {}} />
           </section>
         </div>
       </main>

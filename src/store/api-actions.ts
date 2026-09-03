@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { TOffer, TOfferExpanded, TReview, TAuthData, TUserData, TCommentData } from '../const/types';
-import { APIActions, APIRoute } from '../const/const';
+import { APIAction, APIRoute } from '../const/const';
 import { store } from './store';
 import { dropToken, saveToken } from '../token';
 
@@ -15,7 +15,7 @@ type ThunkConfig = {
 };
 
 export const fetchOffersAction = createAsyncThunk<TOffer[], undefined, ThunkConfig>(
-  APIActions.FetchOffers,
+  APIAction.FetchOffers,
   async (_arg, { extra: api }) => {
     const { data } = await api.get<TOffer[]>(APIRoute.Offers);
     return data;
@@ -23,7 +23,7 @@ export const fetchOffersAction = createAsyncThunk<TOffer[], undefined, ThunkConf
 );
 
 export const fetchSingleOfferAction = createAsyncThunk<TOfferExpanded, string, ThunkConfig>(
-  APIActions.FetchSingleOffer,
+  APIAction.FetchSingleOffer,
   async (offerId, { extra: api }) => {
     const { data } = await api.get<TOfferExpanded>(
       APIRoute.Offer.replace('{offerId}', offerId)
@@ -33,7 +33,7 @@ export const fetchSingleOfferAction = createAsyncThunk<TOfferExpanded, string, T
 );
 
 export const fetchOffersNearbyAction = createAsyncThunk<TOffer[], string, ThunkConfig>(
-  APIActions.FetchOffersNearby,
+  APIAction.FetchOffersNearby,
   async (offerId, { extra: api }) => {
     const { data } = await api.get<TOffer[]>(
       APIRoute.OffersNearby.replace('{offerId}', offerId)
@@ -43,7 +43,7 @@ export const fetchOffersNearbyAction = createAsyncThunk<TOffer[], string, ThunkC
 );
 
 export const fetchFavoritedOffersAction = createAsyncThunk<TOffer[], undefined, ThunkConfig>(
-  APIActions.FetchFavoritedOffers,
+  APIAction.FetchFavoritedOffers,
   async (_arg, { extra: api }) => {
     const { data } = await api.get<TOffer[]>(APIRoute.FavoritedOffers);
     return data;
@@ -55,7 +55,7 @@ export const changeFavoritedStatusAction = createAsyncThunk<
   { offerId: string; status: number },
   ThunkConfig
 >(
-  APIActions.ChangeFavoritedStatus,
+  APIAction.ChangeFavoritedStatus,
   async ({ offerId, status }, { extra: api }) => {
     const { data } = await api.post<TOffer>(
       APIRoute.ChangeFavoritedStatus
@@ -67,7 +67,7 @@ export const changeFavoritedStatusAction = createAsyncThunk<
 );
 
 export const fetchCommentsAction = createAsyncThunk<TReview[], string, ThunkConfig>(
-  APIActions.FetchComments,
+  APIAction.FetchComments,
   async (offerId, { extra: api }) => {
     const { data } = await api.get<TReview[]>(
       APIRoute.Comments.replace('{offerId}', offerId)
@@ -77,7 +77,7 @@ export const fetchCommentsAction = createAsyncThunk<TReview[], string, ThunkConf
 );
 
 export const postCommentAction = createAsyncThunk<TReview, TCommentData, ThunkConfig>(
-  APIActions.PostNewComment,
+  APIAction.PostNewComment,
   async ({ offerId, comment, rating }, { extra: api }) => {
     const { data } = await api.post<TReview>(
       APIRoute.Comments.replace('{offerId}', offerId),
@@ -92,7 +92,7 @@ export const checkAuthorizationStatusAction = createAsyncThunk<
   undefined,
   ThunkConfig
 >(
-  APIActions.CheckAuthorizationStatus,
+  APIAction.CheckAuthorizationStatus,
   async (_arg, { extra: api }) => {
     const { data } = await api.get<TUserData>(APIRoute.Login);
     return data;
@@ -104,7 +104,7 @@ export const loginAction = createAsyncThunk<
   TAuthData,
   ThunkConfig
 >(
-  APIActions.Login,
+  APIAction.Login,
   async ({ email, password }, { extra: api }) => {
     const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
     saveToken(data.token);
@@ -113,7 +113,7 @@ export const loginAction = createAsyncThunk<
 );
 
 export const logoutAction = createAsyncThunk<void, undefined, ThunkConfig>(
-  APIActions.Logout,
+  APIAction.Logout,
   async (_arg, { extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();

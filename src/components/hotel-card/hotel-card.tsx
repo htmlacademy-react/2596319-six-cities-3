@@ -2,30 +2,31 @@ import { Link } from 'react-router-dom';
 import { TOffer } from '../../const/types';
 import Bookmark from '../bookmark/bookmark';
 import { memo } from 'react';
+import { ReviewConfig } from '../../const/const';
 
 type HotelCardProps = {
   card: TOffer;
   className?: string;
   imageWrapperClassName?: string;
-  handleHover: (offer?: TOffer) => void;
+  onHover: (offer?: TOffer) => void;
 };
 
 function HotelCard({card,
   className = 'cities__card',
   imageWrapperClassName = 'cities__image-wrapper',
-  handleHover}: HotelCardProps): JSX.Element {
+  onHover}: HotelCardProps): JSX.Element {
 
-  const starsCount = `${Math.round(card.rating) * 20}%`;
+  const starsCount = `${Math.round(card.rating) * (ReviewConfig.MaxStarsWidthPercentage / ReviewConfig.MaxStarsCount)}%`;
   const offerPath = `/offer/${card.id}`;
 
-  const handleMouseOver = () => handleHover?.(card);
-  const handleMouseLeave = () => handleHover?.();
+  const handleCardMouseOver = () => onHover?.(card);
+  const handleCardMouseLeave = () => onHover?.();
 
   return (
     <article
       className={`${className} place-card`}
-      onMouseEnter={handleMouseOver}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleCardMouseOver}
+      onMouseLeave={handleCardMouseLeave}
     >
       {card.isPremium && (
         <div className="place-card__mark">

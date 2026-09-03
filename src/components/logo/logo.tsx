@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { AppRoute } from '../../const/const';
+import { Link } from 'react-router-dom';
 
 type LogoProps = {
   isActive?: boolean;
@@ -7,7 +8,7 @@ type LogoProps = {
 
 function Logo({isActive = false}: LogoProps) {
   return (
-    <a className={`header__logo-link ${isActive && 'header__logo-link--active'}`} href={AppRoute.Main}>
+    <Link className={`header__logo-link ${isActive && 'header__logo-link--active'}`} to={AppRoute.Main}>
       <img
         className="header__logo"
         src="img/logo.svg"
@@ -15,7 +16,7 @@ function Logo({isActive = false}: LogoProps) {
         width={81}
         height={41}
       />
-    </a>
+    </Link>
   );
 }
 

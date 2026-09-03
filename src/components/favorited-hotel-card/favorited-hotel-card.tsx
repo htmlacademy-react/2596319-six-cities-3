@@ -1,3 +1,4 @@
+import { ReviewConfig } from '../../const/const';
 import { TOffer } from '../../const/types';
 import Bookmark from '../bookmark/bookmark';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +9,7 @@ type TFavoritedHotelCard = {
 
 export default function FavoritedHotelCard({ card }: TFavoritedHotelCard) {
   const navigate = useNavigate();
-  const rating = `${card.rating * 20}%`;
+  const rating = `${card.rating * (ReviewConfig.MaxStarsWidthPercentage / ReviewConfig.MaxStarsCount)}%`;
   const offerPath = `/offer/${card.id}`;
 
   function handleCardClick() {

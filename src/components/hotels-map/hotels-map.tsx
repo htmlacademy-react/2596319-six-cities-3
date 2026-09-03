@@ -2,7 +2,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRef, useEffect } from 'react';
 import { useMap } from './useMap';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const/const';
+import { MarkersConfig } from '../../const/const';
 import { TOffer } from '../../const/types';
 
 type HotelsMapProps = {
@@ -12,13 +12,13 @@ type HotelsMapProps = {
 };
 
 const defaultCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: MarkersConfig.Default,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
 const currentCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: MarkersConfig.Active,
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });

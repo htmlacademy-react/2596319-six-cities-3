@@ -48,7 +48,7 @@ describe('Component: Hotels', () => {
       <Hotels
         offers={mockOffers}
         activeCity="Paris"
-        handleHover={handleHoverMock}
+        onHover={handleHoverMock}
       />
     );
 
@@ -66,7 +66,7 @@ describe('Component: Hotels', () => {
       <Hotels
         offers={[mockOffers[0]]}
         activeCity="Amsterdam"
-        handleHover={vi.fn()}
+        onHover={vi.fn()}
       />
     );
 
