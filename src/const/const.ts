@@ -11,16 +11,29 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
-export enum Actions {
-  CityChange = 'offers/cityChange',
-  FillOffers = 'offers/fillOffers',
-  SetOffersLoadingStatus = 'offers/setLoadingStatus',
-  ChangeAuthorizationStatus = 'user/changeAuthStatus',
-  FillUserData = 'user/fillData',
-  setServerError = 'data/setServerError'
+export enum ReviewConfig {
+  MinLength = 50,
+  MaxLength = 300,
+  MaxStarsWidthPercentage = 100,
+  MaxStarsCount = 5,
+  MaxReviewsCount = 10
 }
 
-export enum APIActions {
+export enum ServerConfig {
+  ErrorCode = 500,
+  MaxResponseTimeout = 5000
+}
+
+export enum MarkersConfig {
+  Default = '../img/pin.svg',
+  Active = '../img/pin-active.svg'
+}
+
+export enum CitiesConfig {
+  DefaultCity = 'Paris'
+}
+
+export enum APIAction {
   FetchOffers = 'offers/fetchOffers',
   FetchSingleOffer = 'offers/fetchSingleOffer',
   FetchOffersNearby = 'offers/fetchOffersNearby',
@@ -44,14 +57,7 @@ export enum APIRoute {
   Logout = '/logout'
 }
 
-export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 300;
-export const URL_MARKER_DEFAULT = '../img/pin.svg';
-export const URL_MARKER_CURRENT = '../img/pin-active.svg';
-
-export const DEFAULT_CITY = 'Paris';
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export const API_URL = 'https://15.design.htmlacademy.pro/six-cities';
 export const AUTH_TOKEN_NAME = 'six-cities-token';
-export const MAX_REVIEWS_COUNT = 10;

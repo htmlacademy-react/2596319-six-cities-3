@@ -1,12 +1,13 @@
 import { memo } from 'react';
 import { TReview } from '../../const/types';
+import { ReviewConfig } from '../../const/const';
 
 type ReviewProps = {
   review: TReview;
 }
 
 function Review({review}: ReviewProps) {
-  const rating = `${review.rating * 20}%`;
+  const rating = `${review.rating * (ReviewConfig.MaxStarsWidthPercentage / ReviewConfig.MaxStarsCount)}%`;
   return (
     <li className="reviews__item">
       <div className="reviews__user user">

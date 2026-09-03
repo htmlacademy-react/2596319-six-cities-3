@@ -29,7 +29,7 @@ describe('Component: HotelCard', () => {
       <MemoryRouter>
         <HotelCard
           card={mockOffer}
-          handleHover={handleHoverMock}
+          onHover={handleHoverMock}
           className="custom-card-class"
           imageWrapperClassName="custom-image-wrapper"
         />

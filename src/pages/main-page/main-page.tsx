@@ -77,7 +77,7 @@ export default function MainPage({ authorizationStatus }: MainPageProps): JSX.El
         <CitiesTabs activeCity={activeCity} onCityClick={handleCityChange}/>
         <div className="cities">
           <div className="cities__places-container container">
-            <Hotels offers={offersInCity} handleHover={handleHover} activeCity={activeCity} />
+            <Hotels offers={offersInCity} onHover={handleHover} activeCity={activeCity} />
             <div className="cities__right-section">
               <HotelsMap offers={offersInCity} selectedOffer={activeOffer}/>
             </div>

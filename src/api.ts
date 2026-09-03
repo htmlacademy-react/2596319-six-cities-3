@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import { API_URL } from './const/const';
+import { API_URL, ServerConfig } from './const/const';
 import { getToken } from './token';
 
 export function createApi(
@@ -8,7 +8,7 @@ export function createApi(
 ): AxiosInstance {
   const api = axios.create({
     baseURL: API_URL,
-    timeout: 5000,
+    timeout: ServerConfig.MaxResponseTimeout
   });
 
   api.interceptors.request.use(
@@ -29,7 +29,7 @@ export function createApi(
       return response;
     },
     (error: AxiosError) => {
-      if (error.response && error.response.status >= 500) {
+      if (error.response && error.response.status >= Number(ServerConfig.ErrorCode)) {
         onServerError?.();
       }
 

@@ -5,7 +5,7 @@ import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import MemoizedBookmark from './bookmark';
-import { APIActions, AppRoute, AuthorizationStatus } from '../../const/const';
+import { APIAction, AppRoute, AuthorizationStatus } from '../../const/const';
 import { changeFavoritedStatusAction } from '../../store/api-actions';
 
 vi.mock('react-router-dom', async () => {
@@ -21,7 +21,7 @@ vi.mock('../../store/api-actions', async () => {
   return {
     ...actual,
     changeFavoritedStatusAction: vi.fn(() => ({
-      type: APIActions.ChangeFavoritedStatus,
+      type: APIAction.ChangeFavoritedStatus,
       unwrap: () => Promise.resolve(),
     })),
   };

@@ -1,5 +1,5 @@
 import { useState, FormEvent, Fragment, memo } from 'react';
-import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../const/const';
+import { ReviewConfig } from '../../const/const';
 import { AppDispatch, postCommentAction } from '../../store/api-actions';
 import { useDispatch } from 'react-redux';
 import { TReview } from '../../const/types';
@@ -59,8 +59,8 @@ function ReviewForm({ offerId, onCommentSubmit }: ReviewFormProps) {
   const isSubmitDisabled: boolean =
     isSubmitting ||
     currentReviewState.rating === 0 ||
-    currentReviewState.comment.length < MIN_COMMENT_LENGTH ||
-    currentReviewState.comment.length > MAX_COMMENT_LENGTH;
+    currentReviewState.comment.length < Number(ReviewConfig.MinLength) ||
+    currentReviewState.comment.length > Number(ReviewConfig.MaxLength);
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>

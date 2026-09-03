@@ -5,11 +5,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import LoginForm from './login-form';
 import * as reactRedux from 'react-redux';
 import { loginAction } from '../../store/api-actions';
-import { APIActions } from '../../const/const';
+import { APIAction } from '../../const/const';
 
 vi.mock('../../store/api-actions', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../store/api-actions')>();
-  const mockLoginAction = vi.fn((data: unknown) => ({ type: APIActions.Login, payload: data })) as unknown as typeof actual.loginAction;
+  const mockLoginAction = vi.fn((data: unknown) => ({ type: APIAction.Login, payload: data })) as unknown as typeof actual.loginAction;
 
   Object.assign(mockLoginAction, {
     fulfilled: {

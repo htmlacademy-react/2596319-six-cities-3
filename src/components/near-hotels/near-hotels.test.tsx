@@ -38,7 +38,7 @@ const mockOffers: TOffer[] = [
 
 describe('Component: NearHotels', () => {
   it('should render list of near hotel cards correctly', () => {
-    render(<NearHotels offers={mockOffers} handleHover={vi.fn()} />);
+    render(<NearHotels offers={mockOffers} onHover={vi.fn()} />);
 
     const hotelCards = screen.getAllByTestId('hotel-card');
     expect(hotelCards).toHaveLength(2);

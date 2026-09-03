@@ -1,6 +1,6 @@
 import { AuthorizationStatus } from '../../const/const';
 import { checkAuthorizationStatusAction, loginAction, logoutAction } from '../api-actions';
-import { userSlice } from './user-slice';
+import { userSlice, setAuthorizationStatus, setUserData } from './user-slice';
 
 describe('userSlice test', () => {
   const mockUserData = {
@@ -30,6 +30,34 @@ describe('userSlice test', () => {
     const expectedState = { authorizationStatus: AuthorizationStatus.Unknown, userData: null };
 
     const result = userSlice.reducer(undefined, emptyAction);
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('should set authorization status with "setAuthorizationStatus" action', () => {
+    const expectedState = {
+      authorizationStatus: AuthorizationStatus.Auth,
+      userData: null,
+    };
+
+    const result = userSlice.reducer(
+      initialState,
+      setAuthorizationStatus(AuthorizationStatus.Auth)
+    );
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('should set user data with "setUserData" action', () => {
+    const expectedState = {
+      authorizationStatus: AuthorizationStatus.Unknown,
+      userData: mockUserData,
+    };
+
+    const result = userSlice.reducer(
+      initialState,
+      setUserData(mockUserData)
+    );
 
     expect(result).toEqual(expectedState);
   });

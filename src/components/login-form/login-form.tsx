@@ -33,7 +33,7 @@ export default function LoginForm() {
     );
   }
 
-  function handleSubmit(evt: FormEvent<HTMLFormElement>): void {
+  function handleLoginFormSubmit(evt: FormEvent<HTMLFormElement>): void {
     evt.preventDefault();
     if (isValidLogin()) {
       dispatch(loginAction(currentLoginFormState))
@@ -48,7 +48,7 @@ export default function LoginForm() {
   return (
     <section className="login">
       <h1 className="login__title">Sign in</h1>
-      <form className="login__form form" onSubmit={handleSubmit}>
+      <form className="login__form form" onSubmit={handleLoginFormSubmit}>
         <div className="login__input-wrapper form__input-wrapper">
           <label className="visually-hidden">E-mail</label>
           <input

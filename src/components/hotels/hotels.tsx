@@ -5,11 +5,11 @@ import { TOffer } from '../../const/types';
 
 type HotelsProps = {
   offers: TOffer[];
-  handleHover: (offer?: TOffer) => void;
+  onHover: (offer?: TOffer) => void;
   activeCity: string;
 };
 
-export default function Hotels({ offers, handleHover, activeCity }: HotelsProps) {
+export default function Hotels({ offers, onHover, activeCity }: HotelsProps) {
   const [activeSort, setActiveSort] = useState<string>('popular');
   const [sortedOffers, setSortedOffers] = useState<TOffer[]>(offers);
   useMemo(() => {
@@ -34,7 +34,7 @@ export default function Hotels({ offers, handleHover, activeCity }: HotelsProps)
     <HotelCard
       key={offer.id}
       card={offer}
-      handleHover={handleHover}
+      onHover={onHover}
     />
   ));
 
